@@ -632,3 +632,6 @@ verify_jwt = true
 
 [functions.test-resend-email]
 verify_jwt = false
+
+[functions.cleanup-all-users]
+verify_jwt = true

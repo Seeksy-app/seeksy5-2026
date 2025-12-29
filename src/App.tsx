@@ -199,6 +199,7 @@ import UserManagement from "./pages/admin/UserManagement";
 import LogoManagerV2 from "./pages/admin/LogoManagerV2";
 import HeroManager from "./pages/admin/HeroManager";
 import TestResendEmail from "./pages/admin/TestResendEmail";
+import CleanupUsers from "./pages/admin/CleanupUsers";
 import BrandSettings from "./pages/admin/BrandSettings";
 import AdminEmailTemplates from "./pages/admin/EmailTemplates";
 import GlobalSettings from "./pages/admin/GlobalSettings";
@@ -1309,6 +1310,7 @@ const AppContent = () => {
             <Route path="/admin/mascot-generator" element={<MascotGeneratorPage />} />
             <Route path="/admin/email-templates" element={<AdminEmailTemplates />} />
               <Route path="/admin/test-resend-email" element={<TestResendEmail />} />
+              <Route path="/admin/cleanup-users" element={<CleanupUsers />} />
               <Route path="/admin/revenue-reports" element={<RevenueReports />} />
               <Route path="/admin/revenue-insights" element={<RevenueReports />} />
               <Route path="/admin/billing" element={<Billing />} />
