@@ -69,27 +69,6 @@ import WIPResults from "./pages/workready360/WIPResults";
 import IPAssessment from "./pages/workready360/IPAssessment";
 // Local Visibility & Growth
 import LocalVisibilityApp from "./pages/local-visibility/LocalVisibilityApp";
-// AITrucking
-import TruckingLandingPage from "./pages/trucking/TruckingLandingPage";
-import TruckingDashboardPage from "./pages/trucking/TruckingDashboardPage";
-import TruckingAuthPage from "./pages/trucking/TruckingAuthPage";
-import TruckingProfilePage from "./pages/trucking/TruckingProfilePage";
-import LoadsPage from "./pages/trucking/LoadsPage";
-import CarrierLeadsPage from "./pages/trucking/CarrierLeadsPage";
-import ConfirmedLeadsPage from "./pages/trucking/ConfirmedLeadsPage";
-import CarriersPage from "./pages/trucking/CarriersPage";
-import AgentSettingsPage from "./pages/trucking/AgentSettingsPage";
-import AITruckingConsolePage from "./pages/trucking/AITruckingConsolePage";
-import TruckingContactsPage from "./pages/trucking/TruckingContactsPage";
-import CallLogsPage from "./pages/trucking/CallLogsPage";
-import TruckingAnalyticsPage from "./pages/trucking/TruckingAnalyticsPage";
-import AICallAnalyticsPage from "./pages/trucking/AICallAnalyticsPage";
-import TruckingCitiesPage from "./pages/trucking/TruckingCitiesPage";
-import TruckingAgentsPage from "./pages/trucking/TruckingAgentsPage";
-import TruckingAdminUsersPage from "./pages/trucking/admin/TruckingAdminUsersPage";
-import TruckingAdminRatePreferencesPage from "./pages/trucking/admin/TruckingAdminRatePreferencesPage";
-import ExtensionInstallPage from "./pages/trucking/ExtensionInstallPage";
-import TruckingLayout from "./components/trucking/TruckingLayout";
 import AdminMeetings from "./pages/admin/AdminMeetings";
 import AdminMeetingsDashboard from "./pages/admin/meetings/AdminMeetingsDashboard";
 import AdminMeetingTypes from "./pages/admin/meetings/AdminMeetingTypes";
@@ -755,8 +734,7 @@ const AppContent = () => {
   // VenueOS is completely standalone - no Seeksy UI
   const isVenueRoute = location.pathname.startsWith('/venueOS') || location.pathname === '/invest/venueos';
   
-  // AITrucking is completely standalone - no Seeksy UI
-  const isTruckingRoute = location.pathname.startsWith('/trucking');
+  
   
   // WorkReady360 is completely standalone - no Seeksy UI
   const isWorkReady360Route = location.pathname.startsWith('/workready360');
@@ -765,8 +743,8 @@ const AppContent = () => {
   const isLegalPublicRoute = location.pathname.startsWith('/legal/purchaser') || location.pathname.startsWith('/legal/chairman');
   
   // Hide sidebar in tour mode or on special routes
-  const shouldShowSidebar = user && !isStudioRoute && !isClipsStudioRoute && !isTourMode && !isOnboardingComplete && !isVeteransRoute && !isCampaignRoute && !isVenueRoute && !isTruckingRoute && !isLegalPublicRoute && !isWorkReady360Route;
-  const shouldShowTopNav = user && !isStudioRoute && !isTourMode && !isOnboardingComplete && !isVeteransRoute && !isCampaignRoute && !isVenueRoute && !isTruckingRoute && !isLegalPublicRoute && !isWorkReady360Route;
+  const shouldShowSidebar = user && !isStudioRoute && !isClipsStudioRoute && !isTourMode && !isOnboardingComplete && !isVeteransRoute && !isCampaignRoute && !isVenueRoute && !isLegalPublicRoute && !isWorkReady360Route;
+  const shouldShowTopNav = user && !isStudioRoute && !isTourMode && !isOnboardingComplete && !isVeteransRoute && !isCampaignRoute && !isVenueRoute && !isLegalPublicRoute && !isWorkReady360Route;
 
   // Render Veterans Platform separately - completely standalone
   if (isVeteransRoute) {
@@ -810,33 +788,7 @@ const AppContent = () => {
     );
   }
 
-  // Render AITrucking Platform separately - completely standalone
-  if (isTruckingRoute) {
-    return (
-      <Routes>
-        <Route path="/trucking" element={<TruckingLandingPage />} />
-        <Route path="/trucking/login" element={<TruckingAuthPage />} />
-        <Route path="/trucking/signup" element={<TruckingAuthPage />} />
-        <Route path="/trucking/dashboard" element={<TruckingLayout><TruckingDashboardPage /></TruckingLayout>} />
-        <Route path="/trucking/loads" element={<TruckingLayout><LoadsPage /></TruckingLayout>} />
-        <Route path="/trucking/leads" element={<TruckingLayout><CarrierLeadsPage /></TruckingLayout>} />
-        <Route path="/trucking/confirmed-leads" element={<TruckingLayout><ConfirmedLeadsPage /></TruckingLayout>} />
-        <Route path="/trucking/carriers" element={<TruckingLayout><CarriersPage /></TruckingLayout>} />
-        <Route path="/trucking/settings" element={<TruckingLayout><AgentSettingsPage /></TruckingLayout>} />
-        <Route path="/trucking/console" element={<TruckingLayout><AITruckingConsolePage /></TruckingLayout>} />
-        <Route path="/trucking/ai-console" element={<TruckingLayout><AITruckingConsolePage /></TruckingLayout>} />
-        <Route path="/trucking/profile" element={<TruckingLayout><TruckingProfilePage /></TruckingLayout>} />
-        <Route path="/trucking/contacts" element={<TruckingLayout><TruckingContactsPage /></TruckingLayout>} />
-        <Route path="/trucking/call-logs" element={<TruckingLayout><CallLogsPage /></TruckingLayout>} />
-        <Route path="/trucking/analytics" element={<TruckingLayout><TruckingAnalyticsPage /></TruckingLayout>} />
-        <Route path="/trucking/ai-analytics" element={<TruckingLayout><AICallAnalyticsPage /></TruckingLayout>} />
-        <Route path="/trucking/agents" element={<TruckingLayout><TruckingAgentsPage /></TruckingLayout>} />
-        <Route path="/trucking/admin/users" element={<TruckingLayout><TruckingAdminUsersPage /></TruckingLayout>} />
-        <Route path="/trucking/admin/rate-preferences" element={<TruckingLayout><TruckingAdminRatePreferencesPage /></TruckingLayout>} />
-        <Route path="/trucking/extension-install" element={<TruckingLayout><ExtensionInstallPage /></TruckingLayout>} />
-      </Routes>
-    );
-  }
+  
 
   // Render WorkReady360 Platform separately - completely standalone
   if (isWorkReady360Route) {
