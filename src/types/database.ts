@@ -15,13 +15,6 @@ export interface Database {
   }
   public: {
     Tables: {
-      // Index signature for any table not explicitly defined
-      [key: string]: {
-        Row: Record<string, any>
-        Insert: Record<string, any>
-        Update: Record<string, any>
-        Relationships?: any[]
-      }
       activity_logs: {
         Row: {
           id: string
@@ -50,6 +43,7 @@ export interface Database {
           related_entity_id?: string | null
           created_at?: string
         }
+        Relationships: []
       }
       ad_campaigns: {
         Row: {
@@ -94,6 +88,7 @@ export interface Database {
           updated_at?: string
           user_id?: string
         }
+        Relationships: []
       }
       podcast_campaign_selections: {
         Row: {
@@ -114,6 +109,7 @@ export interface Database {
           campaign_id?: string
           created_at?: string
         }
+        Relationships: []
       }
       user_credits: {
         Row: {
@@ -137,6 +133,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       email_template_folders: {
         Row: {
@@ -157,6 +154,7 @@ export interface Database {
           name?: string
           created_at?: string
         }
+        Relationships: []
       }
       saved_email_templates: {
         Row: {
@@ -189,6 +187,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       contacts: {
         Row: {
@@ -224,6 +223,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       meetings: {
         Row: {
@@ -259,6 +259,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       podcasts: {
         Row: {
@@ -294,6 +295,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       clips: {
         Row: {
@@ -329,6 +331,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       blog_posts: {
         Row: {
@@ -376,6 +379,7 @@ export interface Database {
           updated_at?: string
           published_at?: string | null
         }
+        Relationships: []
       }
       tickets: {
         Row: {
@@ -408,6 +412,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       events: {
         Row: {
@@ -443,6 +448,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       user_preferences: {
         Row: {
@@ -544,6 +550,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       ad_slots: {
         Row: {
@@ -570,6 +577,7 @@ export interface Database {
           end_time?: number | null
           created_at?: string
         }
+        Relationships: []
       }
       ai_conversations: {
         Row: {
@@ -593,6 +601,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       ai_messages: {
         Row: {
@@ -616,6 +625,7 @@ export interface Database {
           content?: string
           created_at?: string
         }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -651,6 +661,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       user_roles: {
         Row: {
@@ -671,6 +682,7 @@ export interface Database {
           role?: 'admin' | 'moderator' | 'user' | 'super_admin' | 'advertiser'
           created_at?: string
         }
+        Relationships: []
       }
       app_settings: {
         Row: {
@@ -691,6 +703,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       seeksyai_conversations: {
         Row: {
@@ -714,6 +727,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       seeksyai_messages: {
         Row: {
@@ -737,6 +751,7 @@ export interface Database {
           content?: string
           created_at?: string
         }
+        Relationships: []
       }
       theme_preferences: {
         Row: {
@@ -760,6 +775,7 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       feature_usage: {
         Row: {
@@ -786,6 +802,46 @@ export interface Database {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
+      }
+      social_media_accounts: {
+        Row: {
+          id: string
+          user_id: string
+          platform: string
+          account_name: string | null
+          account_id: string | null
+          access_token: string | null
+          refresh_token: string | null
+          expires_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          platform: string
+          account_name?: string | null
+          account_id?: string | null
+          access_token?: string | null
+          refresh_token?: string | null
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          platform?: string
+          account_name?: string | null
+          account_id?: string | null
+          access_token?: string | null
+          refresh_token?: string | null
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: {
