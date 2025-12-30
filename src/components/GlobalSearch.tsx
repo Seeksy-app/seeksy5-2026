@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Search, X, Loader2, Hash, Calendar, Users, FileText, Mail, Video, Mic, DollarSign, Settings, Zap } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 
 interface SearchResult {
   id: string;

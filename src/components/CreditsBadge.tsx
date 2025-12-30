@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { supabase } from "@/integrations/supabase/client";
+import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
 import { Zap } from "lucide-react";
 
