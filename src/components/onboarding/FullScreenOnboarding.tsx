@@ -644,7 +644,9 @@ export function FullScreenOnboarding() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) {
-        toast.error('Please log in to connect Google');
+        // Don't show error toast - just skip silently
+        console.log('[Onboarding] No session for Google connect, skipping');
+        setData(prev => ({ ...prev, integrationType: 'skip' }));
         return;
       }
 
@@ -656,7 +658,10 @@ export function FullScreenOnboarding() {
       });
 
       if (response.error) {
-        throw new Error(response.error.message);
+        // Don't show error toast - just skip silently
+        console.log('[Onboarding] Gmail auth error, skipping:', response.error);
+        setData(prev => ({ ...prev, integrationType: 'skip' }));
+        return;
       }
 
       if (response.data?.authUrl) {
@@ -664,11 +669,14 @@ export function FullScreenOnboarding() {
         setData(prev => ({ ...prev, integrationType: suggestedIntegration === 'email' ? 'google_email' : 'google_calendar' }));
         window.location.href = response.data.authUrl;
       } else {
-        toast.error('Could not get Google authorization URL');
+        // Don't show error toast - just skip silently
+        console.log('[Onboarding] No auth URL returned, skipping');
+        setData(prev => ({ ...prev, integrationType: 'skip' }));
       }
     } catch (error) {
-      console.error('Google connect error:', error);
-      toast.error('Failed to connect Google. Please try again.');
+      // Don't show error toast - just skip silently
+      console.log('[Onboarding] Google connect error, skipping:', error);
+      setData(prev => ({ ...prev, integrationType: 'skip' }));
     }
   };
 
@@ -715,6 +723,7 @@ export function FullScreenOnboarding() {
       );
     }
     
+    // Default view - emphasize that this is optional
     return (
       <div className="space-y-8">
         <motion.div 
@@ -723,24 +732,11 @@ export function FullScreenOnboarding() {
           className="space-y-3"
         >
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-            {suggestedIntegration === 'email' 
-              ? 'Connect your email to supercharge your workflow'
-              : 'Sync your calendar to stay organized'
-            }
+            You're all set! 🎉
           </h1>
-          <div className="space-y-1 text-muted-foreground">
-            {suggestedIntegration === 'email' ? (
-              <>
-                <p className="flex items-center gap-2"><span>✍️</span> Automatically populate your CRM with contacts</p>
-                <p className="flex items-center gap-2"><span>🔍</span> Track email interactions within Seeksy</p>
-              </>
-            ) : (
-              <>
-                <p className="flex items-center gap-2"><span>📅</span> Sync meetings and events automatically</p>
-                <p className="flex items-center gap-2"><span>🔔</span> Get reminders and never miss a booking</p>
-              </>
-            )}
-          </div>
+          <p className="text-lg text-muted-foreground">
+            Your workspace is ready. You can optionally connect Google now, or do it later from Settings.
+          </p>
         </motion.div>
 
         <motion.div 
@@ -749,35 +745,38 @@ export function FullScreenOnboarding() {
           transition={{ delay: 0.1 }}
           className="space-y-4 max-w-md"
         >
-          <div className="flex items-center gap-2 mb-2">
-            <GoogleVerifiedBadge variant="pill" />
+          {/* Optional Google connect - secondary style */}
+          <div className="p-4 rounded-lg border border-border bg-muted/30">
+            <div className="flex items-center gap-2 mb-3">
+              <GoogleVerifiedBadge variant="pill" />
+              <span className="text-xs text-muted-foreground">(Optional)</span>
+            </div>
+            
+            <p className="text-sm text-muted-foreground mb-3">
+              {suggestedIntegration === 'email' 
+                ? 'Connect Gmail to sync contacts and track emails.'
+                : 'Connect Google Calendar to sync meetings and events.'
+              }
+            </p>
+            
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-2"
+              onClick={handleGoogleConnect}
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              Connect Google
+            </Button>
           </div>
-          
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full justify-start gap-3 h-14 text-base font-medium border-2 hover:bg-accent/50"
-            onClick={handleGoogleConnect}
-          >
-            <svg className="h-5 w-5" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Connect Google Account
-          </Button>
 
-          <button
-            type="button"
-            onClick={() => setData(prev => ({ ...prev, integrationType: 'skip' }))}
-            className="w-full text-center text-muted-foreground hover:text-foreground transition-colors py-2"
-          >
-            Skip for now
-          </button>
-
-          <p className="text-xs text-muted-foreground text-center pt-2">
-            Secure, Google-verified integration. <a href="/privacy" className="text-primary hover:underline">Privacy Policy</a>
+          <p className="text-sm text-muted-foreground">
+            Click <strong>"Get Started"</strong> below to enter your dashboard.
           </p>
         </motion.div>
       </div>

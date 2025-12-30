@@ -55,6 +55,7 @@ import { useHolidaySettings } from "@/hooks/useHolidaySettings";
 import { useRole } from "@/contexts/RoleContext";
 import { useWorkspace } from "@/contexts/WorkspaceContext";
 import { MyDayEmptyState } from "@/components/myday/MyDayEmptyState";
+import { GoogleConnectBanner } from "@/components/dashboard/GoogleConnectBanner";
 
 interface DashboardStats {
   totalEvents: number;
@@ -571,6 +572,9 @@ export default function MyDay() {
 
         {/* First Action CTA - prominent entry point */}
         <FirstActionCTA hasModules={activeModuleIds.size > 0} />
+
+        {/* Google Connect Banner - optional post-onboarding prompt */}
+        <GoogleConnectBanner />
 
         {/* Social Accounts Banner */}
         <SocialAccountsBanner />
