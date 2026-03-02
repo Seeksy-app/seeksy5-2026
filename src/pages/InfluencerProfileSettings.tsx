@@ -408,11 +408,11 @@ export default function InfluencerProfileSettings() {
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Followers</p>
-                      <p className="text-3xl font-bold">{(primarySocial.followers_count || 0).toLocaleString()}</p>
+                      <p className="text-3xl font-bold">{((primarySocial as any).followers_count || 0).toLocaleString()}</p>
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Engagement</p>
-                      <p className="text-3xl font-bold">{primarySocial.engagement_rate || 0}%</p>
+                      <p className="text-3xl font-bold">{(primarySocial as any).engagement_rate || 0}%</p>
                     </div>
                   </div>
                 )}

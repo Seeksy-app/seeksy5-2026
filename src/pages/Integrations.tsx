@@ -76,11 +76,11 @@ const Integrations = () => {
   const { data: integrationMetadata } = useQuery({
     queryKey: ["integration-metadata"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const result = await (supabase as any)
         .from("integration_metadata")
         .select("*");
-      if (error) throw error;
-      return data || [];
+      if (result.error) throw result.error;
+      return (result.data as any[]) || [];
     },
   });
 
@@ -125,11 +125,12 @@ const Integrations = () => {
   }, [navigate]);
 
   const loadDismissedDependencies = async (userId: string) => {
-    const { data } = await supabase
+    const result = await (supabase as any)
       .from("user_preferences")
       .select("dismissed_dependency_warnings")
       .eq("user_id", userId)
       .maybeSingle();
+    const data = result.data as any;
     
     if (data?.dismissed_dependency_warnings) {
       setDismissedDependencies(data.dismissed_dependency_warnings as string[]);
@@ -149,19 +150,20 @@ const Integrations = () => {
   const loadModulesAndConnections = async (userId: string) => {
     try {
       // Load module preferences
-      const { data: prefs } = await supabase
+      const prefsResult = await (supabase as any)
         .from("user_preferences")
         .select("*")
         .eq("user_id", userId)
         .single();
+      const prefs = prefsResult.data as any;
 
       if (prefs) {
         setModules({
-          my_page: (prefs as any).my_page_enabled === true,
-          ai_assistant: (prefs as any).ai_assistant_enabled === true,
-          meetings: (prefs as any).meetings_enabled === true,
-          contacts: (prefs as any).contacts_enabled === true,
-          podcasts: (prefs as any).podcasts_enabled === true,
+          my_page: prefs.my_page_enabled === true,
+          ai_assistant: prefs.ai_assistant_enabled === true,
+          meetings: prefs.meetings_enabled === true,
+          contacts: prefs.contacts_enabled === true,
+          podcasts: prefs.podcasts_enabled === true,
           awards: prefs.module_awards_enabled || false,
           media: prefs.module_media_enabled || false,
           civic: prefs.module_civic_enabled || false,
@@ -330,14 +332,15 @@ const Integrations = () => {
         : `module_${moduleNameStr}_enabled`;
 
       // Fetch current pinned_modules
-      const { data: currentPrefs } = await supabase
+      const { data: currentPrefs } = await (supabase as any)
         .from("user_preferences")
         .select("pinned_modules")
         .eq("user_id", user.id)
         .single();
+      const prefsData = currentPrefs as any;
 
-      const currentPinned = Array.isArray(currentPrefs?.pinned_modules) 
-        ? currentPrefs.pinned_modules 
+      const currentPinned = Array.isArray(prefsData?.pinned_modules) 
+        ? prefsData.pinned_modules 
         : [];
 
       console.log("Current pinned before toggle:", currentPinned);
@@ -477,7 +480,7 @@ const Integrations = () => {
     if (!editingModule) return;
 
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("integration_metadata")
         .upsert({
           id: editingModule.id,
