@@ -91,9 +91,9 @@ export default function TeamsManagement() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("teams")
-        .insert([{ ...data, created_by: user.id }]);
+        .insert([{ ...data, created_by: user.id, owner_id: user.id }]);
 
       if (error) throw error;
     },
@@ -111,7 +111,7 @@ export default function TeamsManagement() {
 
   const deleteTeamMutation = useMutation({
     mutationFn: async (teamId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("teams")
         .delete()
         .eq("id", teamId);
@@ -129,7 +129,7 @@ export default function TeamsManagement() {
 
   const addMemberMutation = useMutation({
     mutationFn: async (data: { teamId: string; userId: string }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("team_members")
         .insert([{ team_id: data.teamId, user_id: data.userId }]);
 
@@ -148,7 +148,7 @@ export default function TeamsManagement() {
 
   const removeMemberMutation = useMutation({
     mutationFn: async (data: { teamId: string; userId: string }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("team_members")
         .delete()
         .eq("team_id", data.teamId)

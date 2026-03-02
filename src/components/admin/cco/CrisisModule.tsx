@@ -62,12 +62,12 @@ export function CrisisModule() {
 
   const fetchCrises = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("cco_crisis_events")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (data) setCrises(data);
+    if (data) setCrises(data as any[]);
     setLoading(false);
   };
 
@@ -77,7 +77,7 @@ export function CrisisModule() {
       return;
     }
 
-    const { error } = await supabase.from("cco_crisis_events").insert({
+    const { error } = await (supabase as any).from("cco_crisis_events").insert({
       title: newCrisis.title,
       crisis_type: newCrisis.crisis_type,
       severity: newCrisis.severity,
@@ -103,7 +103,7 @@ export function CrisisModule() {
       updates.resolved_at = new Date().toISOString();
     }
 
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("cco_crisis_events")
       .update(updates)
       .eq("id", crisisId);
@@ -165,7 +165,7 @@ The Seeksy Team`
     };
 
     const field = type === "internal" ? "ai_generated_response" : "official_response";
-    await supabase
+    await (supabase as any)
       .from("cco_crisis_events")
       .update({ [field]: responses[type] })
       .eq("id", crisis.id);

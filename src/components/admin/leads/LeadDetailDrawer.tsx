@@ -38,14 +38,14 @@ export function LeadDetailDrawer({ lead, open, onOpenChange, workspaceId }: Lead
     queryKey: ['lead-events', lead?.id],
     queryFn: async () => {
       if (!lead?.id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('lead_intel_events')
         .select('*')
         .eq('lead_id', lead.id)
         .order('occurred_at', { ascending: false })
         .limit(50);
       if (error) throw error;
-      return data || [];
+      return (data as any[]) || [];
     },
     enabled: !!lead?.id && open
   });

@@ -67,13 +67,13 @@ export function MessagingArchitecture() {
 
   const fetchMessages = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("cco_messaging")
       .select("*")
       .order("message_type")
       .order("created_at", { ascending: false });
 
-    if (data) setMessages(data);
+    if (data) setMessages(data as any[]);
     setLoading(false);
   };
 
@@ -83,7 +83,7 @@ export function MessagingArchitecture() {
       return;
     }
 
-    const { error } = await supabase.from("cco_messaging").insert({
+    const { error } = await (supabase as any).from("cco_messaging").insert({
       message_type: newMessage.message_type,
       audience: newMessage.audience,
       title: newMessage.title,
@@ -103,7 +103,7 @@ export function MessagingArchitecture() {
   };
 
   const handleApprove = async (id: string) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("cco_messaging")
       .update({ status: "approved", approved_at: new Date().toISOString() })
       .eq("id", id);

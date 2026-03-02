@@ -50,14 +50,14 @@ export function BrandVoiceGuide() {
 
   const fetchItems = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("cco_brand_voice")
       .select("*")
       .eq("is_active", true)
       .order("category")
       .order("priority");
 
-    if (data) setItems(data);
+    if (data) setItems(data as any[]);
     setLoading(false);
   };
 
@@ -67,7 +67,7 @@ export function BrandVoiceGuide() {
       return;
     }
 
-    const { error } = await supabase.from("cco_brand_voice").insert({
+    const { error } = await (supabase as any).from("cco_brand_voice").insert({
       category: newItem.category,
       title: newItem.title,
       description: newItem.description || null,
@@ -86,7 +86,7 @@ export function BrandVoiceGuide() {
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("cco_brand_voice")
       .update({ is_active: false })
       .eq("id", id);

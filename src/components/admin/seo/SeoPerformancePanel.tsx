@@ -47,14 +47,14 @@ export function SeoPerformancePanel({ routePath }: SeoPerformancePanelProps) {
   const { data: connection, isLoading: connectionLoading } = useQuery({
     queryKey: ['google-connection', DEFAULT_WORKSPACE_ID],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('google_connections')
         .select('id, access_token')
         .eq('workspace_id', DEFAULT_WORKSPACE_ID)
         .eq('provider', 'google')
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as any;
     }
   });
 
@@ -67,13 +67,13 @@ export function SeoPerformancePanel({ routePath }: SeoPerformancePanelProps) {
       const dateStr = sevenDaysAgo.toISOString().split('T')[0];
 
       const [gscRes, ga4Res] = await Promise.all([
-        supabase
+        (supabase as any)
           .from('gsc_page_daily')
           .select('clicks, impressions, ctr, position')
           .eq('workspace_id', DEFAULT_WORKSPACE_ID)
           .eq('page', normalizedPath)
           .gte('date', dateStr),
-        supabase
+        (supabase as any)
           .from('ga4_page_daily')
           .select('sessions, engagement_rate, avg_engagement_time, conversions')
           .eq('workspace_id', DEFAULT_WORKSPACE_ID)
@@ -81,21 +81,21 @@ export function SeoPerformancePanel({ routePath }: SeoPerformancePanelProps) {
           .gte('date', dateStr)
       ]);
 
-      const gscData = gscRes.data || [];
-      const ga4Data = ga4Res.data || [];
+      const gscData = (gscRes.data as any[]) || [];
+      const ga4Data = (ga4Res.data as any[]) || [];
 
       const gsc = gscData.length > 0 ? {
-        clicks: gscData.reduce((sum, r) => sum + (r.clicks || 0), 0),
-        impressions: gscData.reduce((sum, r) => sum + (r.impressions || 0), 0),
-        ctr: gscData.reduce((sum, r) => sum + (Number(r.ctr) || 0), 0) / gscData.length,
-        position: gscData.reduce((sum, r) => sum + (Number(r.position) || 0), 0) / gscData.length
+        clicks: gscData.reduce((sum: number, r: any) => sum + (r.clicks || 0), 0),
+        impressions: gscData.reduce((sum: number, r: any) => sum + (r.impressions || 0), 0),
+        ctr: gscData.reduce((sum: number, r: any) => sum + (Number(r.ctr) || 0), 0) / gscData.length,
+        position: gscData.reduce((sum: number, r: any) => sum + (Number(r.position) || 0), 0) / gscData.length
       } : null;
 
       const ga4 = ga4Data.length > 0 ? {
-        sessions: ga4Data.reduce((sum, r) => sum + (r.sessions || 0), 0),
-        engagementRate: ga4Data.reduce((sum, r) => sum + (Number(r.engagement_rate) || 0), 0) / ga4Data.length,
-        avgEngagementTime: ga4Data.reduce((sum, r) => sum + (Number(r.avg_engagement_time) || 0), 0) / ga4Data.length,
-        conversions: ga4Data.reduce((sum, r) => sum + (Number(r.conversions) || 0), 0)
+        sessions: ga4Data.reduce((sum: number, r: any) => sum + (r.sessions || 0), 0),
+        engagementRate: ga4Data.reduce((sum: number, r: any) => sum + (Number(r.engagement_rate) || 0), 0) / ga4Data.length,
+        avgEngagementTime: ga4Data.reduce((sum: number, r: any) => sum + (Number(r.avg_engagement_time) || 0), 0) / ga4Data.length,
+        conversions: ga4Data.reduce((sum: number, r: any) => sum + (Number(r.conversions) || 0), 0)
       } : null;
 
       return { gsc, ga4 } as AggregatedMetrics;
@@ -112,13 +112,13 @@ export function SeoPerformancePanel({ routePath }: SeoPerformancePanelProps) {
       const dateStr = twentyEightDaysAgo.toISOString().split('T')[0];
 
       const [gscRes, ga4Res] = await Promise.all([
-        supabase
+        (supabase as any)
           .from('gsc_page_daily')
           .select('clicks, impressions, ctr, position')
           .eq('workspace_id', DEFAULT_WORKSPACE_ID)
           .eq('page', normalizedPath)
           .gte('date', dateStr),
-        supabase
+        (supabase as any)
           .from('ga4_page_daily')
           .select('sessions, engagement_rate, avg_engagement_time, conversions')
           .eq('workspace_id', DEFAULT_WORKSPACE_ID)
@@ -126,18 +126,18 @@ export function SeoPerformancePanel({ routePath }: SeoPerformancePanelProps) {
           .gte('date', dateStr)
       ]);
 
-      const gscData = gscRes.data || [];
-      const ga4Data = ga4Res.data || [];
+      const gscData = (gscRes.data as any[]) || [];
+      const ga4Data = (ga4Res.data as any[]) || [];
 
       const gsc = gscData.length > 0 ? {
-        clicks: gscData.reduce((sum, r) => sum + (r.clicks || 0), 0),
-        impressions: gscData.reduce((sum, r) => sum + (r.impressions || 0), 0),
-        ctr: gscData.reduce((sum, r) => sum + (Number(r.ctr) || 0), 0) / gscData.length,
-        position: gscData.reduce((sum, r) => sum + (Number(r.position) || 0), 0) / gscData.length
+        clicks: gscData.reduce((sum: number, r: any) => sum + (r.clicks || 0), 0),
+        impressions: gscData.reduce((sum: number, r: any) => sum + (r.impressions || 0), 0),
+        ctr: gscData.reduce((sum: number, r: any) => sum + (Number(r.ctr) || 0), 0) / gscData.length,
+        position: gscData.reduce((sum: number, r: any) => sum + (Number(r.position) || 0), 0) / gscData.length
       } : null;
 
       const ga4 = ga4Data.length > 0 ? {
-        sessions: ga4Data.reduce((sum, r) => sum + (r.sessions || 0), 0),
+        sessions: ga4Data.reduce((sum: number, r: any) => sum + (r.sessions || 0), 0),
         engagementRate: ga4Data.reduce((sum, r) => sum + (Number(r.engagement_rate) || 0), 0) / ga4Data.length,
         avgEngagementTime: ga4Data.reduce((sum, r) => sum + (Number(r.avg_engagement_time) || 0), 0) / ga4Data.length,
         conversions: ga4Data.reduce((sum, r) => sum + (Number(r.conversions) || 0), 0)

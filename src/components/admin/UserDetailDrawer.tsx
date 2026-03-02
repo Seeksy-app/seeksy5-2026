@@ -79,7 +79,7 @@ export function UserDetailDrawer({ open, onOpenChange, user }: UserDetailDrawerP
     queryKey: ["admin-user-credits-drawer", user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("user_credits")
         .select("*")
         .eq("user_id", user.id)
@@ -165,14 +165,15 @@ export function UserDetailDrawer({ open, onOpenChange, user }: UserDetailDrawerP
         : Math.max(0, currentBalance - amount);
 
       // Update user credits
-      const { error: updateError } = await supabase
+      const uc = userCredits as any;
+      const { error: updateError } = await (supabase as any)
         .from("user_credits")
         .upsert({
           user_id: user.id,
           balance: newBalance,
           total_purchased: action === "add" 
-            ? (userCredits?.total_purchased || 0) + amount 
-            : userCredits?.total_purchased || 0,
+            ? (uc?.total_purchased || 0) + amount 
+            : uc?.total_purchased || 0,
           updated_at: new Date().toISOString(),
         });
 
@@ -352,15 +353,15 @@ export function UserDetailDrawer({ open, onOpenChange, user }: UserDetailDrawerP
                   <div className="grid grid-cols-3 gap-2 text-xs">
                     <div>
                       <p className="text-muted-foreground">Purchased</p>
-                      <p className="font-semibold">{userCredits?.total_purchased || 0}</p>
+                      <p className="font-semibold">{(userCredits as any)?.total_purchased || 0}</p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Spent</p>
-                      <p className="font-semibold">{userCredits?.total_spent || 0}</p>
+                      <p className="font-semibold">{(userCredits as any)?.total_spent || 0}</p>
                     </div>
                     <div>
                       <p className="text-muted-foreground">Earned</p>
-                      <p className="font-semibold">{userCredits?.total_earned || 0}</p>
+                      <p className="font-semibold">{(userCredits as any)?.total_earned || 0}</p>
                     </div>
                   </div>
 

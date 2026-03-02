@@ -116,7 +116,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
   const { data: gbpLink, isLoading: linkLoading } = useQuery({
     queryKey: ["seo-gbp-link-for-ai", seoPageId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("gbp_seo_links")
         .select(`
           id,
@@ -139,14 +139,14 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
   const { data: runs, isLoading: runsLoading } = useQuery({
     queryKey: ["seo-ai-suggestions-by-page", seoPageId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("seo_ai_suggestions")
         .select("*")
         .eq("seo_page_id", seoPageId)
         .order("created_at", { ascending: false })
         .limit(20);
       if (error) throw error;
-      return (data || []) as SuggestionRun[];
+      return ((data as any[]) || []) as SuggestionRun[];
     },
   });
 
@@ -230,7 +230,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
       }
 
       // Update SEO page draft
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from("seo_pages")
         .update(updates)
         .eq("id", seoPageId);
@@ -243,7 +243,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
       const newStatus = suggestions.length === totalSuggestions ? "applied" : "partial";
 
       // Update suggestion run status
-      const { error: statusError } = await supabase
+      const { error: statusError } = await (supabase as any)
         .from("seo_ai_suggestions")
         .update({
           status: newStatus,
@@ -255,7 +255,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
 
       // Log audit
       const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from("gbp_audit_log").insert({
+      await (supabase as any).from("gbp_audit_log").insert({
         user_id: user?.id,
         action_type: "SEO_AI_SUGGESTION_APPLIED",
         entity_type: "seo_ai_suggestions",
@@ -288,7 +288,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
   // Dismiss mutation
   const dismissMutation = useMutation({
     mutationFn: async (runId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("seo_ai_suggestions")
         .update({
           status: "dismissed",
@@ -300,7 +300,7 @@ export function SeoAiSuggestionsPanel({ seoPageId, onSuggestionApplied }: SeoAiS
 
       // Log audit
       const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from("gbp_audit_log").insert({
+      await (supabase as any).from("gbp_audit_log").insert({
         user_id: user?.id,
         action_type: "SEO_AI_SUGGESTION_DISMISSED",
         entity_type: "seo_ai_suggestions",

@@ -25,7 +25,7 @@ export function LinkedGbpPanel({ seoPageId }: LinkedGbpPanelProps) {
   const { data: links, isLoading } = useQuery({
     queryKey: ['seo-gbp-links', seoPageId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('gbp_seo_links')
         .select(`
           id,
@@ -40,7 +40,7 @@ export function LinkedGbpPanel({ seoPageId }: LinkedGbpPanelProps) {
         `)
         .eq('seo_page_id', seoPageId);
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     }
   });
 

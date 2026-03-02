@@ -63,7 +63,7 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
   const { data: link } = useQuery({
     queryKey: ['gbp-seo-link', locationId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('gbp_seo_links')
         .select(`
           *,
@@ -72,7 +72,7 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
         .eq('gbp_location_id', locationId)
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as any;
     }
   });
 
@@ -96,7 +96,7 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
       }
 
       // Update SEO page (draft-only, status stays as-is)
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from('seo_pages')
         .update({
           ...updates,
@@ -107,7 +107,7 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
       if (updateError) throw updateError;
 
       // Update link status
-      await supabase
+      await (supabase as any)
         .from('gbp_seo_links')
         .update({ 
           sync_status: 'linked',
@@ -117,14 +117,12 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
         .eq('id', link.id);
 
       // Log to audit
-      await supabase.from('gbp_audit_log').insert({
+      await (supabase as any).from('gbp_audit_log').insert({
         connection_id: connectionId,
-        location_id: locationId,
         action_type: 'SEO_SYNC_SUGGESTION_APPLIED',
         actor_user_id: user?.id,
         target_type: 'seo_page',
         target_id: link.seo_page_id,
-        status: 'success',
         details: { 
           applied_fields: Object.keys(updates),
           is_draft: true
@@ -183,7 +181,7 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
       
       const { data: { user } } = await supabase.auth.getUser();
       
-      await supabase
+      await (supabase as any)
         .from('gbp_seo_links')
         .update({ 
           sync_status: newStatus,
@@ -194,14 +192,12 @@ export function GBPSeoDriftPanel({ locationId, connectionId, gbpData }: GBPSeoDr
 
       // Log drift detection
       if (items.length > 0) {
-        await supabase.from('gbp_audit_log').insert({
+        await (supabase as any).from('gbp_audit_log').insert({
           connection_id: connectionId,
-          location_id: locationId,
           action_type: 'GBP_SEO_DRIFT_DETECTED',
           actor_user_id: user?.id,
           target_type: 'seo_page',
           target_id: link.seo_page_id,
-          status: 'success',
           details: { drift_count: items.length, fields: items.map(i => i.field) }
         });
       }

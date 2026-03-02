@@ -94,13 +94,13 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
   const { data: seoLink, isLoading: linkLoading } = useQuery({
     queryKey: ["gbp-seo-link", locationId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("gbp_seo_links")
         .select("id, seo_page_id, sync_status")
         .eq("gbp_location_id", locationId)
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as any;
     },
   });
 
@@ -109,7 +109,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
     queryKey: ["seo-ai-suggestions", locationId],
     queryFn: async () => {
       if (!seoLink?.seo_page_id) return [];
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("seo_ai_suggestions")
         .select("*")
         .eq("gbp_location_id", locationId)
@@ -117,7 +117,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
         .order("created_at", { ascending: false })
         .limit(10);
       if (error) throw error;
-      return (data || []) as SuggestionRun[];
+      return ((data as any[]) || []) as SuggestionRun[];
     },
     enabled: !!seoLink?.seo_page_id,
   });
@@ -205,7 +205,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
       }
 
       // Update SEO page draft
-      const { error: updateError } = await supabase
+      const { error: updateError } = await (supabase as any)
         .from("seo_pages")
         .update(updates)
         .eq("id", seoLink.seo_page_id);
@@ -218,7 +218,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
       const newStatus = suggestions.length === totalSuggestions ? "applied" : "partial";
 
       // Update suggestion run status
-      const { error: statusError } = await supabase
+      const { error: statusError } = await (supabase as any)
         .from("seo_ai_suggestions")
         .update({
           status: newStatus,
@@ -230,7 +230,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
 
       // Log audit
       const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from("gbp_audit_log").insert({
+      await (supabase as any).from("gbp_audit_log").insert({
         user_id: user?.id,
         action_type: "SEO_AI_SUGGESTION_APPLIED",
         entity_type: "seo_ai_suggestions",
@@ -261,7 +261,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
   // Dismiss mutation
   const dismissMutation = useMutation({
     mutationFn: async (runId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("seo_ai_suggestions")
         .update({
           status: "dismissed",
@@ -273,7 +273,7 @@ export function GBPAiSuggestionsPanel({ locationId, gbpLocationId }: GBPAiSugges
 
       // Log audit
       const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from("gbp_audit_log").insert({
+      await (supabase as any).from("gbp_audit_log").insert({
         user_id: user?.id,
         action_type: "SEO_AI_SUGGESTION_DISMISSED",
         entity_type: "seo_ai_suggestions",

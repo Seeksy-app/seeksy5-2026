@@ -36,7 +36,7 @@ export function GBPLayout({ children, title, showTabs = true }: GBPLayoutProps) 
   const { data: adminSettings } = useQuery({
     queryKey: ['gbp-admin-settings'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('gbp_admin_settings')
         .select('*')
         .limit(1)
@@ -46,7 +46,7 @@ export function GBPLayout({ children, title, showTabs = true }: GBPLayoutProps) 
         console.error('Error fetching GBP admin settings:', error);
         return null;
       }
-      return data;
+      return data as any;
     },
   });
 

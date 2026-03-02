@@ -16,7 +16,7 @@ export function TodaysTasks() {
 
       const today = format(new Date(), "yyyy-MM-dd");
 
-      const { data } = await supabase
+      const result = await (supabase as any)
         .from("tasks")
         .select("*")
         .eq("user_id", user.id)
@@ -25,7 +25,7 @@ export function TodaysTasks() {
         .order("priority", { ascending: true })
         .limit(10);
 
-      return data || [];
+      return (result.data as any[]) || [];
     },
   });
 
@@ -91,16 +91,16 @@ export function TodaysTasks() {
                   to={`/admin/tasks?task=${task.id}`}
                   className="flex items-start gap-3 p-3 hover:bg-muted/50 rounded-lg transition-colors border border-border/50 cursor-pointer"
                 >
-                  <div className={`h-3 w-3 rounded-full mt-1.5 ${getPriorityColor(task.priority)}`} />
+                  <div className={`h-3 w-3 rounded-full mt-1.5 ${getPriorityColor((task as any).priority)}`} />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">{task.title}</p>
+                    <p className="text-sm font-medium truncate">{(task as any).title}</p>
                     <div className="flex items-center gap-2 mt-1">
                       <Badge variant="outline" className="text-xs">
-                        {task.category}
+                        {(task as any).category}
                       </Badge>
                       <span className="text-xs text-muted-foreground flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        {getStatusLabel(task.status)}
+                        {getStatusLabel((task as any).status)}
                       </span>
                     </div>
                   </div>

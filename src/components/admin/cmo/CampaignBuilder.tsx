@@ -52,12 +52,12 @@ export function CampaignBuilder() {
 
   const fetchCampaigns = async () => {
     setLoading(true);
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("cmo_campaigns")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (data) setCampaigns(data);
+    if (data) setCampaigns(data as any[]);
     setLoading(false);
   };
 
@@ -67,7 +67,7 @@ export function CampaignBuilder() {
       return;
     }
 
-    const { error } = await supabase.from("cmo_campaigns").insert({
+    const { error } = await (supabase as any).from("cmo_campaigns").insert({
       name: newCampaign.name,
       description: newCampaign.description || null,
       campaign_type: newCampaign.campaign_type,
@@ -88,7 +88,7 @@ export function CampaignBuilder() {
   };
 
   const handleStatusChange = async (campaignId: string, newStatus: string) => {
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("cmo_campaigns")
       .update({ status: newStatus, updated_at: new Date().toISOString() })
       .eq("id", campaignId);
@@ -123,7 +123,7 @@ export function CampaignBuilder() {
   };
 
   const totalBudget = campaigns.reduce((sum, c) => sum + c.budget, 0);
-  const totalSpent = campaigns.reduce((sum, c) => sum + c.spent, 0);
+  const totalSpent = campaigns.reduce((sum, c) => sum + ((c as any).spent || 0), 0);
   const activeCampaigns = campaigns.filter(c => c.status === "active").length;
 
   const channelOptions = ["email", "social", "events", "partnerships", "paid_ads", "podcast", "seo", "content"];
@@ -321,7 +321,7 @@ export function CampaignBuilder() {
                         </span>
                         <span className="flex items-center gap-1">
                           <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                          Spent: ${campaign.spent.toLocaleString()}
+                          Spent: ${((campaign as any).spent || 0).toLocaleString()}
                         </span>
                         {campaign.goal && (
                           <span className="flex items-center gap-1">
@@ -341,9 +341,9 @@ export function CampaignBuilder() {
                       <div className="pt-2">
                         <div className="flex justify-between text-xs mb-1">
                           <span>Budget Utilization</span>
-                          <span>{((campaign.spent / campaign.budget) * 100 || 0).toFixed(0)}%</span>
+                          <span>{((((campaign as any).spent || 0) / campaign.budget) * 100 || 0).toFixed(0)}%</span>
                         </div>
-                        <Progress value={(campaign.spent / campaign.budget) * 100 || 0} className="h-2" />
+                        <Progress value={(((campaign as any).spent || 0) / campaign.budget) * 100 || 0} className="h-2" />
                       </div>
                     </div>
                     <div className="flex gap-2 ml-4">

@@ -20,7 +20,7 @@ export function CreatorVoiceSelector({ onSelectVoice, selectedVoiceId }: Creator
   const { data: creatorVoices, isLoading } = useQuery({
     queryKey: ['creatorVoices'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('creator_voice_profiles')
         .select('*')
         .eq('is_available_for_ads', true)
@@ -33,7 +33,7 @@ export function CreatorVoiceSelector({ onSelectVoice, selectedVoiceId }: Creator
   });
 
   const filteredVoices = creatorVoices?.filter(voice =>
-    voice.voice_name.toLowerCase().includes(searchTerm.toLowerCase())
+    (voice as any).voice_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const playVoiceSample = (audioUrl: string, voiceId: string) => {
@@ -85,16 +85,16 @@ export function CreatorVoiceSelector({ onSelectVoice, selectedVoiceId }: Creator
               <Card
                 key={voice.id}
                 className={`cursor-pointer transition-all ${
-                  selectedVoiceId === voice.elevenlabs_voice_id
+                  selectedVoiceId === (voice as any).elevenlabs_voice_id
                     ? 'ring-2 ring-primary'
                     : 'hover:bg-accent'
                 }`}
                 onClick={() =>
                   onSelectVoice(
-                    voice.elevenlabs_voice_id!,
-                    voice.voice_name,
+                    (voice as any).elevenlabs_voice_id!,
+                    (voice as any).voice_name,
                     voice.id,
-                    voice.price_per_ad || 0
+                    (voice as any).price_per_ad || 0
                   )
                 }
               >
@@ -102,29 +102,29 @@ export function CreatorVoiceSelector({ onSelectVoice, selectedVoiceId }: Creator
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <h4 className="font-semibold">{voice.voice_name}</h4>
-                        {voice.is_verified && (
+                        <h4 className="font-semibold">{(voice as any).voice_name}</h4>
+                        {(voice as any).is_verified && (
                           <Badge variant="secondary" className="text-xs">
                             <Check className="h-3 w-3 mr-1" />
                             Verified
                           </Badge>
                         )}
                       </div>
-                      {voice.price_per_ad && (
+                      {(voice as any).price_per_ad && (
                         <div className="flex items-center gap-1 text-sm text-muted-foreground">
                           <DollarSign className="h-4 w-4" />
-                          ${voice.price_per_ad.toFixed(2)} per ad
+                          ${(voice as any).price_per_ad.toFixed(2)} per ad
                         </div>
                       )}
                     </div>
 
-                    {voice.sample_audio_url && (
+                    {(voice as any).sample_audio_url && (
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={(e) => {
                           e.stopPropagation();
-                          playVoiceSample(voice.sample_audio_url!, voice.id);
+                          playVoiceSample((voice as any).sample_audio_url!, voice.id);
                         }}
                       >
                         {playingVoice === voice.id ? (
@@ -136,13 +136,13 @@ export function CreatorVoiceSelector({ onSelectVoice, selectedVoiceId }: Creator
                     )}
                   </div>
 
-                  {voice.usage_terms && (
+                  {(voice as any).usage_terms && (
                     <p className="text-xs text-muted-foreground line-clamp-2">
-                      {voice.usage_terms}
+                      {(voice as any).usage_terms}
                     </p>
                   )}
 
-                  {selectedVoiceId === voice.elevenlabs_voice_id && (
+                  {selectedVoiceId === (voice as any).elevenlabs_voice_id && (
                     <div className="flex items-center gap-2 text-sm text-primary">
                       <Check className="h-4 w-4" />
                       Selected

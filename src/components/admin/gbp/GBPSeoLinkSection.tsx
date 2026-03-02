@@ -71,7 +71,7 @@ export function GBPSeoLinkSection({ locationId, connectionId }: GBPSeoLinkSectio
   const { data: existingLink, isLoading: linkLoading } = useQuery({
     queryKey: ['gbp-seo-link', locationId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('gbp_seo_links')
         .select(`
           *,
@@ -86,7 +86,7 @@ export function GBPSeoLinkSection({ locationId, connectionId }: GBPSeoLinkSectio
         .eq('gbp_location_id', locationId)
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as any;
     }
   });
 
@@ -94,12 +94,12 @@ export function GBPSeoLinkSection({ locationId, connectionId }: GBPSeoLinkSectio
   const { data: seoPages } = useQuery({
     queryKey: ['seo-pages-for-link'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('seo_pages')
         .select('id, page_name, route_path, score')
         .order('page_name', { ascending: true });
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     }
   });
 
@@ -109,25 +109,22 @@ export function GBPSeoLinkSection({ locationId, connectionId }: GBPSeoLinkSectio
       const { data: { user } } = await supabase.auth.getUser();
       
       // Create the link
-      const { error: linkError } = await supabase
+      const { error: linkError } = await (supabase as any)
         .from('gbp_seo_links')
         .insert({
           gbp_location_id: locationId,
           seo_page_id: seoPageId,
-          link_type: 'primary',
           sync_status: 'linked'
         });
       if (linkError) throw linkError;
 
       // Log to audit
-      await supabase.from('gbp_audit_log').insert({
+      await (supabase as any).from('gbp_audit_log').insert({
         connection_id: connectionId,
-        location_id: locationId,
         action_type: 'GBP_SEO_LINK_CREATED',
         actor_user_id: user?.id,
         target_type: 'seo_page',
         target_id: seoPageId,
-        status: 'success',
         details: { seo_page_id: seoPageId }
       });
     },
@@ -151,21 +148,19 @@ export function GBPSeoLinkSection({ locationId, connectionId }: GBPSeoLinkSectio
       const { data: { user } } = await supabase.auth.getUser();
       
       // Remove the link
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('gbp_seo_links')
         .delete()
         .eq('id', existingLink.id);
       if (error) throw error;
 
       // Log to audit
-      await supabase.from('gbp_audit_log').insert({
+      await (supabase as any).from('gbp_audit_log').insert({
         connection_id: connectionId,
-        location_id: locationId,
         action_type: 'GBP_SEO_LINK_REMOVED',
         actor_user_id: user?.id,
         target_type: 'seo_page',
         target_id: existingLink.seo_page_id,
-        status: 'success',
         details: { seo_page_id: existingLink.seo_page_id }
       });
     },
