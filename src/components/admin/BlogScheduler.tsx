@@ -53,18 +53,18 @@ export default function BlogScheduler() {
   const { data: schedules, isLoading } = useQuery({
     queryKey: ['blog-schedules'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('blog_generation_schedules')
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data as Schedule[];
+      return (data as any[]) as Schedule[];
     }
   });
 
   const createScheduleMutation = useMutation({
     mutationFn: async (schedule: typeof newSchedule) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('blog_generation_schedules')
         .insert({
           ...schedule,
@@ -91,7 +91,7 @@ export default function BlogScheduler() {
 
   const toggleScheduleMutation = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('blog_generation_schedules')
         .update({ is_active })
         .eq('id', id);
@@ -105,7 +105,7 @@ export default function BlogScheduler() {
 
   const deleteScheduleMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('blog_generation_schedules')
         .delete()
         .eq('id', id);

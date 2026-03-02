@@ -80,7 +80,7 @@ export const EmailTemplateFullScreenEditor = ({ open, onOpenChange, template }: 
     mutationFn: async () => {
       if (!user) throw new Error("Not authenticated");
       
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("saved_email_templates")
         .insert({
           user_id: user.id,
@@ -174,7 +174,7 @@ export const EmailTemplateFullScreenEditor = ({ open, onOpenChange, template }: 
                         {folders?.map((folder) => (
                           <SelectItem key={folder.id} value={folder.id}>
                             <div className="flex items-center gap-2">
-                              <Folder className="h-4 w-4" style={{ color: folder.color }} />
+                              <Folder className="h-4 w-4" style={{ color: (folder as any).color }} />
                               {folder.name}
                             </div>
                           </SelectItem>

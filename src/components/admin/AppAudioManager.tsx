@@ -16,13 +16,13 @@ export const AppAudioManager = () => {
   const { data: audioDescriptions, isLoading } = useQuery({
     queryKey: ["app-audio-descriptions"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("app_audio_descriptions")
         .select("*")
         .order("app_name");
       
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 
@@ -66,7 +66,7 @@ export const AppAudioManager = () => {
 
   const updateScriptMutation = useMutation({
     mutationFn: async ({ appId, script }: { appId: string; script: string }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("app_audio_descriptions")
         .update({ script })
         .eq("app_id", appId);

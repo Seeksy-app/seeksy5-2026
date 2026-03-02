@@ -88,17 +88,17 @@ export function AdminOverview({ demoMode = false }: AdminOverviewProps) {
         .select("user_id", { count: "exact", head: true });
 
       // Get advertisers count
-      const { count: totalAdvertisers } = await supabase
+      const { count: totalAdvertisers } = await (supabase as any)
         .from("advertisers")
         .select("*", { count: "exact", head: true });
 
       // Get total ad impressions
-      const { count: totalImpressions } = await supabase
+      const { count: totalImpressions } = await (supabase as any)
         .from("ad_impressions")
         .select("*", { count: "exact", head: true });
 
       // Get active subscriptions
-      const { count: activeSubscriptions } = await supabase
+      const { count: activeSubscriptions } = await (supabase as any)
         .from("subscriptions")
         .select("*", { count: "exact", head: true })
         .eq("status", "active");
@@ -129,7 +129,7 @@ export function AdminOverview({ demoMode = false }: AdminOverviewProps) {
       ];
 
       // Subscription distribution
-      const { data: subs } = await supabase
+      const { data: subs } = await (supabase as any)
         .from("subscriptions")
         .select("plan_name");
       

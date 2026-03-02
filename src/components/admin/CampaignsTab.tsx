@@ -25,7 +25,7 @@ export default function CampaignsTab() {
   const { data: stats } = useQuery({
     queryKey: ["admin-campaign-stats"],
     queryFn: async () => {
-      const { data: impressions } = await supabase
+      const { data: impressions } = await (supabase as any)
         .from("ad_impressions")
         .select("*", { count: "exact", head: true });
 

@@ -11,7 +11,7 @@ export default function AdsTab() {
   const { data: audioAds, isLoading: loadingAds } = useQuery({
     queryKey: ["admin-audio-ads"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("audio_ads")
         .select(`
           *,
@@ -21,14 +21,14 @@ export default function AdsTab() {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 
   const { data: campaigns, isLoading: loadingCampaigns } = useQuery({
     queryKey: ["admin-campaigns"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("ad_campaigns")
         .select(`
           *,
@@ -37,7 +37,7 @@ export default function AdsTab() {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 

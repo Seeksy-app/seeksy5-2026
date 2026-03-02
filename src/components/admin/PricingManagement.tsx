@@ -60,13 +60,13 @@ export function PricingManagement() {
   const { data: pricingTiers = [], isLoading } = useQuery({
     queryKey: ["advertiser-pricing-tiers"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("advertiser_pricing_tiers")
         .select("*")
         .order("display_order");
 
       if (error) throw error;
-      return data as PricingTier[];
+      return (data as any[]) as PricingTier[];
     },
   });
 
@@ -88,13 +88,13 @@ export function PricingManagement() {
       };
 
       if (tier.id) {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("advertiser_pricing_tiers")
           .update(tierData)
           .eq("id", tier.id);
         if (error) throw error;
       } else {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("advertiser_pricing_tiers")
           .insert([tierData]);
         if (error) throw error;
@@ -114,7 +114,7 @@ export function PricingManagement() {
   // Delete tier mutation
   const deleteTierMutation = useMutation({
     mutationFn: async (tierId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("advertiser_pricing_tiers")
         .delete()
         .eq("id", tierId);

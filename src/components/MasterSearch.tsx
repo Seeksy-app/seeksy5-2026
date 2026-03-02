@@ -234,14 +234,14 @@ export const MasterSearch = () => {
       }));
 
       // Search tickets
-      const { data: tickets } = await supabase
+      const { data: tickets } = await (supabase as any)
         .from("tickets")
         .select("id, title, ticket_number")
         .eq("user_id", user.id)
         .or(`title.ilike.%${searchQuery}%,ticket_number.ilike.%${searchQuery}%`)
         .limit(5);
 
-      const ticketResults: SearchResult[] = (tickets || []).map(ticket => ({
+      const ticketResults: SearchResult[] = ((tickets as any[]) || []).map((ticket: any) => ({
         id: ticket.id,
         title: ticket.title,
         type: "Ticket",

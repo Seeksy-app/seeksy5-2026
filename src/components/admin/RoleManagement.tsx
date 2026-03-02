@@ -48,7 +48,7 @@ export default function RoleManagement() {
   const { data: rolePermissions, isLoading } = useQuery({
     queryKey: ["role-permissions"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("role_permissions")
         .select("*")
         .order("role", { ascending: true });
@@ -59,7 +59,7 @@ export default function RoleManagement() {
       const grouped: Record<string, string[]> = {};
       const allPerms = new Set<string>();
       
-      data.forEach((perm) => {
+      ((data as any[]) || []).forEach((perm: any) => {
         if (!grouped[perm.role]) {
           grouped[perm.role] = [];
         }
@@ -83,14 +83,14 @@ export default function RoleManagement() {
   const updatePermissionsMutation = useMutation({
     mutationFn: async ({ role, permissions }: { role: string; permissions: string[] }) => {
       // Delete existing permissions for this role
-      await supabase
+      await (supabase as any)
         .from("role_permissions")
         .delete()
         .eq("role", role as any);
 
       // Insert new permissions
       if (permissions.length > 0) {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from("role_permissions")
           .insert(permissions.map(permission => ({ 
             role: role as any, 

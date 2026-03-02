@@ -219,7 +219,7 @@ export const SeeksyAIChatWidget = () => {
         
         if (user) {
           try {
-            await supabase.rpc('increment_usage', {
+            await (supabase as any).rpc('increment_usage', {
               _user_id: user.id,
               _feature_type: 'ai_messages',
               _increment: 1

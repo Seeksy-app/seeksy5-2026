@@ -87,7 +87,7 @@ export function AARMediaUpload({ aarId, media, onUpload, onDelete }: AARMediaUpl
     if (!editingMedia) return;
 
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('aar_media')
         .update({
           caption: editForm.caption,

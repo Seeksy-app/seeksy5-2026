@@ -43,14 +43,14 @@ export function SecurityAlertsPanel() {
   const { data: alerts, isLoading } = useQuery({
     queryKey: ["security-alerts"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("security_alerts")
         .select("*")
         .order("created_at", { ascending: false })
         .limit(50);
       
       if (error) throw error;
-      return data as SecurityAlert[];
+      return (data as any[]) as SecurityAlert[];
     },
   });
 
@@ -86,7 +86,7 @@ export function SecurityAlertsPanel() {
 
   const resolveAlert = useMutation({
     mutationFn: async (alertId: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("security_alerts")
         .update({ 
           is_resolved: true, 

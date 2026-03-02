@@ -62,15 +62,15 @@ export const PodcastPlayer = ({ podcast, episodes, creatorId }: PodcastPlayerPro
     queryFn: async () => {
       if (!currentEpisode) return [];
       
-      const { data, error } = await supabase
+      const result = await (supabase as any)
         .from('ad_slots')
         .select('*')
         .eq('episode_id', currentEpisode.id)
         .eq('status', 'filled')
         .order('position_seconds', { ascending: true });
       
-      if (error) throw error;
-      return data as AdSlot[];
+      if (result.error) throw result.error;
+      return (result.data as any[]) as AdSlot[];
     },
     enabled: !!currentEpisode,
   });

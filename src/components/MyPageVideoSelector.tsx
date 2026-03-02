@@ -58,35 +58,36 @@ export function MyPageVideoSelector() {
       if (!user) return;
 
       // Fetch current settings
-      const { data: profile } = await supabase
+      const { data: profile } = await (supabase as any)
         .from('profiles')
         .select('my_page_video_type, my_page_video_id, my_page_ad_id, my_page_video_loop, my_page_cta_button_text, my_page_cta_phone_number, my_page_cta_text_keyword')
         .eq('id', user.id)
         .single();
+      const p = profile as any;
 
-      if (profile) {
-        setCurrentSettings(profile);
-        setVideoType((profile.my_page_video_type as any) || 'none');
-        setSelectedVideoId(profile.my_page_video_id || '');
-        setSelectedAdId((profile as any).my_page_ad_id || '');
-        setLoopVideo(profile.my_page_video_loop !== false);
-        setCtaButtonText((profile as any).my_page_cta_button_text || 'Tip');
-        setCtaPhoneNumber((profile as any).my_page_cta_phone_number || '');
-        setCtaTextKeyword((profile as any).my_page_cta_text_keyword || '');
+      if (p) {
+        setCurrentSettings(p);
+        setVideoType(p.my_page_video_type || 'none');
+        setSelectedVideoId(p.my_page_video_id || '');
+        setSelectedAdId(p.my_page_ad_id || '');
+        setLoopVideo(p.my_page_video_loop !== false);
+        setCtaButtonText(p.my_page_cta_button_text || 'Tip');
+        setCtaPhoneNumber(p.my_page_cta_phone_number || '');
+        setCtaTextKeyword(p.my_page_cta_text_keyword || '');
       }
 
       // Fetch user's own videos
-      const { data: media } = await supabase
+      const { data: media } = await (supabase as any)
         .from('media_files')
         .select('id, file_name, file_url, duration_seconds')
         .eq('user_id', user.id)
         .eq('file_type', 'video')
         .order('created_at', { ascending: false });
 
-      setOwnVideos(media || []);
+      setOwnVideos((media as any[]) || []);
 
       // Fetch available ad videos from Ad Library (audio_ads table)
-      const { data: ads } = await supabase
+      const { data: ads } = await (supabase as any)
         .from('audio_ads')
         .select(`
           id, 
@@ -104,7 +105,7 @@ export function MyPageVideoSelector() {
         .order('created_at', { ascending: false });
 
       // Filter to only video ads (mp4, webm)
-      const videoAds = (ads || []).filter(ad => 
+      const videoAds = ((ads as any[]) || []).filter((ad: any) => 
         ad.audio_url?.toLowerCase().endsWith('.mp4') || 
         ad.audio_url?.toLowerCase().endsWith('.webm')
       );

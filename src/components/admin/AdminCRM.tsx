@@ -49,20 +49,20 @@ export default function AdminCRM({ userManagementProps }: AdminCRMProps) {
   const { data: advertisers, isLoading: loadingAdvertisers } = useQuery({
     queryKey: ["admin-crm-advertisers"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("advertisers")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any[]) || [];
     },
   });
 
   const { data: creators, isLoading: loadingCreators } = useQuery({
     queryKey: ["admin-crm-creators"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select(`
           *,
@@ -72,21 +72,21 @@ export default function AdminCRM({ userManagementProps }: AdminCRMProps) {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data || [];
+      return (data as any[]) || [];
     },
   });
 
   const { data: advertiserStats } = useQuery({
     queryKey: ["admin-crm-advertiser-stats"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("advertiser_transactions")
         .select("advertiser_id, amount");
 
       if (error) throw error;
 
       const statsMap = new Map();
-      data?.forEach((transaction) => {
+      ((data as any[]) || []).forEach((transaction: any) => {
         const current = statsMap.get(transaction.advertiser_id) || 0;
         statsMap.set(transaction.advertiser_id, current + Number(transaction.amount));
       });
@@ -95,14 +95,14 @@ export default function AdminCRM({ userManagementProps }: AdminCRMProps) {
     },
   });
 
-  const filteredAdvertisers = advertisers?.filter(
-    (adv) =>
-      adv.company_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      adv.contact_email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredAdvertisers = (advertisers as any[])?.filter(
+    (adv: any) =>
+      adv.company_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      adv.contact_email?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredCreators = creators?.filter(
-    (creator) =>
+  const filteredCreators = (creators as any[])?.filter(
+    (creator: any) =>
       creator.account_full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       creator.username?.toLowerCase().includes(searchQuery.toLowerCase())
   );

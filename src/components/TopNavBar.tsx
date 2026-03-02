@@ -48,19 +48,20 @@ export function TopNavBar() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserEmail(user.email || "");
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
           .from('profiles')
           .select('full_name, account_full_name, avatar_url, account_avatar_url')
           .eq('id', user.id)
           .single();
+        const p = profile as any;
         
-        if (profile) {
-          const name = profile.full_name || profile.account_full_name;
+        if (p) {
+          const name = p.full_name || p.account_full_name;
           if (name) {
             setTeamName(`${name.split(' ')[0]}'s Workspace`);
             setUserName(name);
           }
-          const avatar = profile.avatar_url || profile.account_avatar_url;
+          const avatar = p.avatar_url || p.account_avatar_url;
           if (avatar) {
             setAvatarUrl(avatar);
           }

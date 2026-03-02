@@ -65,7 +65,7 @@ export default function SubscriptionsAdmin({ demoMode = false }: SubscriptionsAd
     queryKey: ["admin-subscriptions", demoMode],
     queryFn: async () => {
       if (demoMode) return demoSubscriptions;
-      const { data: subData, error: subError } = await supabase
+      const { data: subData, error: subError } = await (supabase as any)
         .from("subscriptions")
         .select("*")
         .order("created_at", { ascending: false });
@@ -74,8 +74,8 @@ export default function SubscriptionsAdmin({ demoMode = false }: SubscriptionsAd
       if (!subData) return [];
 
       // Fetch profiles separately
-      const userIds = subData.map(sub => sub.user_id);
-      const { data: profilesData, error: profilesError } = await supabase
+      const userIds = (subData as any[]).map((sub: any) => sub.user_id);
+      const { data: profilesData, error: profilesError } = await (supabase as any)
         .from("profiles")
         .select("id, username, full_name")
         .in("id", userIds);
@@ -83,9 +83,9 @@ export default function SubscriptionsAdmin({ demoMode = false }: SubscriptionsAd
       if (profilesError) throw profilesError;
 
       // Merge subscriptions with profiles
-      const profilesMap = new Map(profilesData?.map(p => [p.id, p]) || []);
+      const profilesMap = new Map(((profilesData as any[]) || []).map((p: any) => [p.id, p]));
       
-      return subData.map(sub => ({
+      return (subData as any[]).map((sub: any) => ({
         ...sub,
         profiles: profilesMap.get(sub.user_id) || null
       })) as Subscription[];
@@ -95,7 +95,7 @@ export default function SubscriptionsAdmin({ demoMode = false }: SubscriptionsAd
   const { data: usageData = [] } = useQuery({
     queryKey: ["admin-usage"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("usage_tracking")
         .select("user_id, feature_type, usage_count")
         .gte("period_end", new Date().toISOString())
@@ -105,7 +105,7 @@ export default function SubscriptionsAdmin({ demoMode = false }: SubscriptionsAd
 
       // Group by user_id
       const grouped: Record<string, UsageData> = {};
-      data.forEach((item) => {
+      ((data as any[]) || []).forEach((item: any) => {
         if (!grouped[item.user_id]) {
           grouped[item.user_id] = { user_id: item.user_id, ai_messages: 0, podcast_storage_mb: 0 };
         }

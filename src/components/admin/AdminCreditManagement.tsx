@@ -33,13 +33,13 @@ export function AdminCreditManagement() {
   const { data: users } = useQuery({
     queryKey: ["admin-users-list"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select("id, account_full_name, username")
         .order("account_full_name");
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 
@@ -93,7 +93,7 @@ export function AdminCreditManagement() {
     queryFn: async () => {
       if (!selectedUserId) return null;
       
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("user_credits")
         .select("*")
         .eq("user_id", selectedUserId)

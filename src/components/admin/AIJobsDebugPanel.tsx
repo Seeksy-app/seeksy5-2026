@@ -13,7 +13,7 @@ export function AIJobsDebugPanel({ mediaId }: AIJobsDebugPanelProps) {
   const { data: jobs, isLoading } = useQuery({
     queryKey: ["ai-jobs", mediaId],
     queryFn: async () => {
-      let query = supabase
+      let query = (supabase as any)
         .from("ai_jobs")
         .select(`
           *,

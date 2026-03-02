@@ -32,7 +32,7 @@ export default function TeamsManagement() {
   const { data: teams, isLoading } = useQuery({
     queryKey: ["teams"],
     queryFn: async () => {
-      const { data: teamsData, error: teamsError } = await supabase
+      const { data: teamsData, error: teamsError } = await (supabase as any)
         .from("teams")
         .select("*")
         .order("created_at", { ascending: false });
@@ -41,8 +41,8 @@ export default function TeamsManagement() {
 
       // Fetch members for each team
       const teamsWithMembers = await Promise.all(
-        (teamsData || []).map(async (team) => {
-          const { data: membersData, error: membersError } = await supabase
+        ((teamsData as any[]) || []).map(async (team: any) => {
+          const { data: membersData, error: membersError } = await (supabase as any)
             .from("team_members")
             .select("user_id")
             .eq("team_id", team.id);
@@ -51,8 +51,8 @@ export default function TeamsManagement() {
 
           // Fetch profile data for each member
           const members = await Promise.all(
-            (membersData || []).map(async (member) => {
-              const { data: profile } = await supabase
+            ((membersData as any[]) || []).map(async (member: any) => {
+              const { data: profile } = await (supabase as any)
                 .from("profiles")
                 .select("username, full_name")
                 .eq("id", member.user_id)
@@ -76,13 +76,13 @@ export default function TeamsManagement() {
   const { data: users } = useQuery({
     queryKey: ["all-users"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select("id, username, full_name")
         .order("username");
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 

@@ -254,7 +254,7 @@ export default function VideoUploader({
     console.log('📊 Duration extracted:', { raw: duration, rounded: durationInt });
 
     // Create media file record
-    const { error: dbError } = await supabase
+    const { error: dbError } = await (supabase as any)
       .from('media_files')
       .insert({
         user_id: session.user.id,
@@ -378,7 +378,7 @@ export default function VideoUploader({
             const durationInt = duration ? Math.floor(Number(duration)) : null;
             console.log('📊 Duration extracted:', { raw: duration, rounded: durationInt });
 
-            const { error: dbError } = await supabase
+            const { error: dbError } = await (supabase as any)
               .from('media_files')
               .insert({
                 user_id: session.user.id,

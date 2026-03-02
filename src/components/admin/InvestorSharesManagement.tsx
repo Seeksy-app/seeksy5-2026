@@ -37,7 +37,7 @@ export const InvestorSharesManagement = () => {
 
   const fetchShares = async () => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("investor_shares")
         .select("*")
         .order("created_at", { ascending: false });
@@ -46,8 +46,8 @@ export const InvestorSharesManagement = () => {
 
       // Fetch user profiles separately
       const sharesWithProfiles = await Promise.all(
-        (data || []).map(async (share) => {
-          const { data: profile } = await supabase
+        ((data as any[]) || []).map(async (share: any) => {
+          const { data: profile } = await (supabase as any)
             .from("profiles")
             .select("full_name, username")
             .eq("id", share.user_id)
@@ -60,7 +60,7 @@ export const InvestorSharesManagement = () => {
         })
       );
 
-      setShares(sharesWithProfiles);
+      setShares(sharesWithProfiles as any);
     } catch (error: any) {
       console.error("Error fetching investor shares:", error);
       toast.error("Failed to load investor shares");
@@ -79,7 +79,7 @@ export const InvestorSharesManagement = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("investor_shares")
         .update({
           status: "revoked",

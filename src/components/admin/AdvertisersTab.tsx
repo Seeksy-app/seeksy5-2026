@@ -20,13 +20,13 @@ export default function AdvertisersTab() {
   const { data: advertisers, isLoading } = useQuery({
     queryKey: ["admin-advertisers"],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("advertisers")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 
@@ -35,7 +35,7 @@ export default function AdvertisersTab() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("advertisers")
         .update({
           status: "approved",
@@ -59,7 +59,7 @@ export default function AdvertisersTab() {
 
   const rejectMutation = useMutation({
     mutationFn: async ({ advertiserId, reason }: { advertiserId: string; reason: string }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("advertisers")
         .update({
           status: "rejected",
