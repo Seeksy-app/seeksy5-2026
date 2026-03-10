@@ -88,7 +88,8 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          className="text-base leading-relaxed text-muted-foreground mt-4 max-w-[460px] mx-auto"
+          className="text-base leading-relaxed mt-4 max-w-[460px] mx-auto"
+          style={{ color: "rgba(255,255,255,0.9)" }}
         >
           A suite of 35+ AI-first workplace applications — available for
           enterprise licensing, partnership, or strategic acquisition.
