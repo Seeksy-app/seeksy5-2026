@@ -68,7 +68,7 @@ export function OpportunityVideoManager({ opportunityId, opportunityName }: Oppo
 
   const saveMutation = useMutation({
     mutationFn: async (videoIds: string[]) => {
-      await (supabase.from("sales_opportunity_videos") as any)
+      await (supabase as any).from("sales_opportunity_videos")
         .delete()
         .eq("opportunity_id", opportunityId);
       if (videoIds.length > 0) {
