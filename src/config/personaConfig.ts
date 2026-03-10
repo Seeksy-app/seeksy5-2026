@@ -83,7 +83,7 @@ export const ALL_WIDGETS: WidgetConfig[] = [
   // Engagement widgets
   { id: "email-performance", name: "Email Performance", description: "Campaign metrics", icon: Mail, category: "engagement" },
   { id: "meetings-booking", name: "Meetings & Booking", description: "Upcoming sessions", icon: Calendar, category: "engagement" },
-  { id: "my-page-streaming", name: "My Page Streaming", description: "Live & replays", icon: Radio, category: "engagement" },
+  { id: "my-page-streaming", name: "Profile Page Streaming", description: "Live & replays", icon: Radio, category: "engagement" },
   { id: "events-overview", name: "Events Overview", description: "Your events", icon: Calendar, category: "engagement" },
   { id: "rsvps-attendees", name: "RSVPs & Attendees", description: "Event registrations", icon: Users, category: "engagement" },
   { id: "testimonials", name: "Testimonials", description: "Reviews & feedback", icon: Star, category: "engagement" },

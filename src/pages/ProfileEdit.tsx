@@ -867,7 +867,7 @@ export default function ProfileEdit() {
                     <div className="mt-6 p-4 bg-muted/50 rounded-lg">
                       <h4 className="text-sm font-semibold mb-2">💡 Go Live</h4>
                       <p className="text-xs text-muted-foreground mb-3">
-                        Go to Studio to start streaming live on your My Page
+                        Go to Studio to start streaming live on your profile page
                       </p>
                       <Button variant="outline" size="sm" className="w-full" onClick={() => navigate("/studio")}>
                         Open Studio to Go Live

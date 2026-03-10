@@ -29,7 +29,7 @@ export const TopLinksWidget = ({ topLinks }: TopLinksWidgetProps) => (
     <CardHeader>
       <CardTitle className="flex items-center gap-2">
         <TrendingUp className="h-5 w-5" />
-        My Page - Top Links
+        Profile Page - Top Links
       </CardTitle>
       <CardDescription>Your most popular links this period</CardDescription>
     </CardHeader>

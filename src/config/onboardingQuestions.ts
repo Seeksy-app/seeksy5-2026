@@ -51,7 +51,7 @@ export const toolsOptions: OnboardingOption[] = [
   { id: "monetization-hub", label: "Monetization Hub", description: "Revenue & deals" },
   { id: "contacts", label: "Contacts & CRM", description: "Manage relationships" },
   { id: "automations", label: "Email/SMS Automations", description: "Marketing workflows" },
-  { id: "my-page", label: "My Page Builder", description: "Public landing page" },
+  { id: "my-page", label: "Shareable Profile Page", description: "Public landing page" },
   { id: "events", label: "Events + Scheduling", description: "Calendar & bookings" },
 ];
 

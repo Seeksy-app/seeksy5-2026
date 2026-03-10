@@ -199,7 +199,7 @@ export default function CreatorHub() {
     { id: 'podcasts', name: 'Podcasts', category: 'Media & Content', creditEstimate: 20 },
     { id: 'content-library', name: 'Media Library', category: 'Media & Content', creditEstimate: 10 },
     { id: 'clips', name: 'Clips & Editing', category: 'Media & Content', creditEstimate: 30 },
-    { id: 'my-page-streaming', name: 'My Page Streaming', category: 'Media & Content', creditEstimate: 40 },
+    { id: 'my-page-streaming', name: 'Profile Page Streaming', category: 'Media & Content', creditEstimate: 40 },
     { id: 'crm', name: 'Contacts & Audience', category: 'Growth & Distribution', creditEstimate: 5 },
     { id: 'segments', name: 'Segments', category: 'Growth & Distribution', creditEstimate: 5 },
   ];

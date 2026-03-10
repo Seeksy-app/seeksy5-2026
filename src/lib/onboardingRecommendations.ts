@@ -142,7 +142,7 @@ export const DASHBOARD_PREVIEWS: Record<string, DashboardPreviewConfig> = {
       { label: "Create Campaign", icon: "Megaphone" },
       { label: "Build Form", icon: "FileText" },
     ],
-    panels: ["CRM", "Automations", "Email/SMS", "Forms", "My Page Builder"],
+    panels: ["CRM", "Automations", "Email/SMS", "Forms", "Shareable Profile Page"],
   },
   agency: {
     title: "Agency Dashboard",

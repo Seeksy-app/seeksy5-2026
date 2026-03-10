@@ -49,7 +49,7 @@ export function ShareMyPageDrawer({ open, onClose, profileUrl, displayName }: Sh
     <Drawer open={open} onOpenChange={onClose}>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Share My Page</DrawerTitle>
+          <DrawerTitle>Share Profile Page</DrawerTitle>
           <DrawerDescription>
             Share your profile with others
           </DrawerDescription>

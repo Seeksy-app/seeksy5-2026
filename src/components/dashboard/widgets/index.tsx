@@ -66,7 +66,7 @@ export const EngagementWidget = ({ data }: { data: WidgetData }) => (
   <DashboardWidget 
     title={
       <div className="flex items-center gap-2">
-        <span>My Page - Engagement Rate</span>
+        <span>Profile Page - Engagement Rate</span>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>

@@ -44,7 +44,7 @@ export const ClicksByTypeWidget = ({ clickBreakdown, totalClicks }: ClicksByType
     <CardHeader>
       <CardTitle className="flex items-center gap-2">
         <LinkIcon className="h-5 w-5" />
-        My Page - Clicks by Type
+        Profile Page - Clicks by Type
       </CardTitle>
       <CardDescription>See which types of links get the most engagement</CardDescription>
     </CardHeader>

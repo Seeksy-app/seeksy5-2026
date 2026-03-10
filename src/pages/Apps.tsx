@@ -693,7 +693,7 @@ const modules: Module[] = [
   },
   {
     id: "my-page-streaming",
-    name: "My Page Streaming",
+    name: "Profile Page Streaming",
     description: "Stream directly on your creator page",
     icon: Video,
     status: "coming_soon",

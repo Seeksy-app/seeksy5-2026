@@ -352,7 +352,7 @@ export const getSparkOnboardingMessage = (role: UserRole, firstName?: string): S
   switch (role) {
     case "creator":
       return {
-        text: `Welcome, ${name}! I'm Spark — your AI copilot. Let's set up your workspace: Studio, My Page, and your content pipeline.`,
+        text: `Welcome, ${name}! I'm Spark — your AI copilot. Let's set up your workspace: Studio, your Shareable Profile Page, and your content pipeline.`,
         emoji: "🚀"
       };
     case "advertiser":

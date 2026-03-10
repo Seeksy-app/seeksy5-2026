@@ -212,7 +212,7 @@ const SEEKSY_APPS: SeeksyApp[] = [
     bestFor: ["Creators", "Influencers", "Personal brands"],
   },
   {
-    name: "My Page",
+    name: "Shareable Profile Page",
     icon: <Globe className="h-5 w-5" />,
     category: "Identity & Profile",
     tagline: "Your personalized landing page with video, CTA buttons, and links.",

@@ -46,7 +46,7 @@ const creatorDashboard: DashboardConfig = {
   checklist: [
     { id: "connect-social", label: "Connect social accounts", description: "Link Instagram, YouTube, TikTok", route: "/settings/integrations", checkKey: "social_connected" },
     { id: "sync-data", label: "Sync first data", description: "Pull your analytics", route: "/social-analytics", checkKey: "data_synced" },
-    { id: "setup-mypage", label: "Set up My Page", description: "Create your public profile", route: "/my-page", checkKey: "my_page_enabled" },
+    { id: "setup-mypage", label: "Set up Profile Page", description: "Create your public profile", route: "/my-page", checkKey: "my_page_enabled" },
     { id: "upload-media", label: "Upload first media", description: "Add content to your library", route: "/media", checkKey: "media_uploaded" },
     { id: "enable-autosync", label: "Enable auto-sync", description: "Keep data up to date", route: "/settings/integrations", checkKey: "auto_sync_enabled" },
   ],

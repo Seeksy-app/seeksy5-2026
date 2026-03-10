@@ -166,7 +166,7 @@ export const DashboardCustomizer = ({ widgets, onSave }: DashboardCustomizerProp
 
   // Always show all categories - no module filtering for customizer
   const [categoryOrder, setCategoryOrder] = useState<CategoryData[]>([
-    { id: "mypage", label: "My Page & Profile" },
+    { id: "mypage", label: "Shareable Profile Page" },
     { id: "engagement", label: "Engagement & Traffic" },
     { id: "email", label: "Email Analytics" },
     { id: "seekies", label: "Seekies & Content" },

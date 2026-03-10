@@ -410,7 +410,7 @@ export default function BroadcastStudio() {
 
       toast({
         title: "🎉 You're Live!",
-        description: "Broadcasting to My Page. Voice authentication active.",
+        description: "Broadcasting to your profile page. Voice authentication active.",
       });
 
       // Start real-time features

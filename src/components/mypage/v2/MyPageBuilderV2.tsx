@@ -96,7 +96,7 @@ export default function MyPageBuilderV2() {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <div>
-              <h1 className="text-2xl font-bold">My Page Builder</h1>
+              <h1 className="text-2xl font-bold">Shareable Profile Page</h1>
               <p className="text-muted-foreground text-sm">Create your perfect profile</p>
             </div>
           </div>

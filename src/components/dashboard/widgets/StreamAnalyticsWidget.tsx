@@ -76,7 +76,7 @@ export function StreamAnalyticsWidget() {
   return (
     <Card className="transition-all duration-300 hover:shadow-lg border-border/50 bg-gradient-to-br from-card via-card to-brand-red/10">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-semibold tracking-tight">My Page Streaming</CardTitle>
+        <CardTitle className="text-sm font-semibold tracking-tight">Profile Page Streaming</CardTitle>
         <Badge variant={isLive ? "default" : "secondary"} className={isLive ? "bg-brand-red text-white" : ""}>
           {isLive ? "Live" : "Offline"}
         </Badge>

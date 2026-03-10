@@ -425,7 +425,7 @@ export const ONBOARDING_TIPS: Record<PageKey, PageOnboarding> = {
 
   page_builder: {
     pageKey: 'page_builder',
-    pageName: 'My Page',
+    pageName: 'Shareable Profile Page',
     primaryTips: [
       {
         id: 'page_overview',

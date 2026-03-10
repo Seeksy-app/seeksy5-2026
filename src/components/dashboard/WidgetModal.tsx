@@ -143,5 +143,5 @@ export const defaultWidgetDefinitions: WidgetDefinition[] = [
   { id: "email-preview", name: "Email Performance", description: "Recent sends & opens", icon: Mail, category: "engagement", enabled: false },
   { id: "events-booking", name: "Booking Performance", description: "Upcoming meetings", icon: Calendar, category: "engagement", enabled: false },
   { id: "identity-status", name: "Identity Status", description: "Verification badges", icon: Shield, category: "identity", enabled: true },
-  { id: "my-page", name: "My Page Preview", description: "Public page stats", icon: Layout, category: "identity", enabled: false },
+  { id: "my-page", name: "Profile Page Preview", description: "Public page stats", icon: Layout, category: "identity", enabled: false },
 ];
