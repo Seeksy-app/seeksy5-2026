@@ -15,6 +15,7 @@ import { NewsletterSignupForm } from "@/components/NewsletterSignupForm";
 import { BlogLoadMore } from "@/components/blog/BlogLoadMore";
 import { gtmEvents, trackRouteChange } from "@/utils/gtm";
 import blogHeroImage from "@/assets/blog-hero.jpg";
+import { TopNavigation } from "@/components/homepage/TopNavigation";
 
 interface BlogPost {
   id: string;
