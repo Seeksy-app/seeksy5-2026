@@ -28,7 +28,11 @@ console.log('[Boot] Rendering React app...');
 const root = document.getElementById("root")!;
 createRoot(root).render(<App />);
 
-// Remove initial loader and reveal app
-const loader = document.getElementById("initial-loader");
-if (loader) loader.remove();
-root.classList.add("ready");
+// Wait for React to paint before revealing — prevents grey→white→grey flash
+requestAnimationFrame(() => {
+  requestAnimationFrame(() => {
+    const loader = document.getElementById("initial-loader");
+    if (loader) loader.remove();
+    root.classList.add("ready");
+  });
+});
