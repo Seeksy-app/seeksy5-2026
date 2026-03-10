@@ -150,7 +150,7 @@ export function OpportunityInlineEditor({ opportunity, onClose }: OpportunityInl
         .delete()
         .eq("opportunity_id", opportunity.id);
       if (videoIds.length > 0) {
-        await (supabase.from("sales_opportunity_videos") as any)
+        await (supabase as any).from("sales_opportunity_videos")
           .insert(videoIds.map((videoId, index) => ({
             opportunity_id: opportunity.id,
             video_id: videoId,
