@@ -3,6 +3,8 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Check, X, Zap, HardDrive, Video, Radio } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { TopNavigation } from "@/components/homepage/TopNavigation";
+import { FooterSection } from "@/components/homepage/FooterSection";
 
 const Pricing = () => {
   const navigate = useNavigate();
