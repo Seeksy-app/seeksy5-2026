@@ -156,7 +156,7 @@ export function ClipsSourceSelector({ onMediaSelect, onBack }: ClipsSourceSelect
 
       const { data: { publicUrl } } = supabase.storage.from("media-vault").getPublicUrl(filePath);
 
-      const { data: newMedia, error: insertError } = await supabase
+      const { data: newMedia, error: insertError } = await (supabase as any)
         .from("media_files")
         .insert({
           user_id: user.id,

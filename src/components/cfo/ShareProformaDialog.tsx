@@ -143,7 +143,7 @@ export const ShareProformaDialog = ({ open, onOpenChange, proformaType }: ShareP
           investorName: email.split('@')[0],
           accessCode: generatedCode,
           investorLink: generatedLink,
-          senderName: profileData?.full_name || undefined,
+          senderName: (profileData as any)?.full_name || undefined,
           senderUserId: user.id,
         },
       });
