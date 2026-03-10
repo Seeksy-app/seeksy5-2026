@@ -54,7 +54,7 @@ export function NomineeManager({ programId }: NomineeManagerProps) {
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ nomineeId, status }: { nomineeId: string; status: "pending" | "approved" | "rejected" }) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("award_nominees")
         .update({ status })
         .eq("id", nomineeId);
