@@ -16,14 +16,14 @@ export function ContactPreferencesTab({ contactId }: ContactPreferencesTabProps)
   const { data: preferences, isLoading } = useQuery({
     queryKey: ["contact-preferences", contactId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("contact_preferences")
         .select("*")
         .eq("contact_id", contactId)
         .single();
 
       if (error && error.code !== "PGRST116") throw error;
-      return data || {
+      return (data as any) || {
         newsletter: true,
         promotions: true,
         updates: true,
