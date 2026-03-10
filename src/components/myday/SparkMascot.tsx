@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { useHolidaySettings } from "@/hooks/useHolidaySettings";
 
 interface SparkMascotProps {
   className?: string;
@@ -8,9 +7,6 @@ interface SparkMascotProps {
 }
 
 export function SparkMascot({ className, size = "md", animate = true }: SparkMascotProps) {
-  const { data: holidaySettings } = useHolidaySettings();
-  const isHoliday = holidaySettings?.holidayMode;
-  
   const sizeClasses = {
     sm: "w-6 h-6",
     md: "w-8 h-8",
@@ -43,23 +39,6 @@ export function SparkMascot({ className, size = "md", animate = true }: SparkMas
           animate && "group-hover:scale-110 group-hover:rotate-3"
         )}
       >
-        {/* Holiday Santa Hat */}
-        {isHoliday && (
-          <>
-            <path
-              d="M18 4L24 -2L38 8L32 14L18 4Z"
-              fill="#DC2626"
-              stroke="#B91C1C"
-              strokeWidth="0.5"
-            />
-            <circle cx="38" cy="8" r="3" fill="white" />
-            <path
-              d="M16 6C16 6 18 4 24 4C30 4 32 6 32 6L30 10C30 10 28 8 24 8C20 8 18 10 18 10L16 6Z"
-              fill="white"
-            />
-          </>
-        )}
-        
         {/* Body - Friendly rounded star shape */}
         <path
           d="M24 8L28.5 20.5L42 22L31.5 31L34 44L24 37L14 44L16.5 31L6 22L19.5 20.5L24 8Z"
