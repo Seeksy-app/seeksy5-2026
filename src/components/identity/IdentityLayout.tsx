@@ -39,9 +39,9 @@ export function IdentityLayout({ children }: IdentityLayoutProps) {
         <div className="max-w-[1200px] mx-auto px-6 py-6">
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-3xl font-bold">Identity & Rights</h1>
+              <h1 className="text-3xl font-bold">NIL Protection & Rights</h1>
               <p className="text-muted-foreground mt-1">
-                Manage your verified face, voice, and permissions
+                Protect your Name, Image, and Likeness — manage verified identity, permissions, and content protection
               </p>
             </div>
             <div className="flex gap-3">

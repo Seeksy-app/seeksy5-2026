@@ -410,8 +410,8 @@ export const SEEKSY_MODULES: SeeksyModule[] = [
   },
   {
     id: "identity-verification",
-    name: "Identity & Verification",
-    description: "Verify your voice and face on blockchain, manage usage rights and permissions",
+    name: "NIL Protection & Rights",
+    description: "Protect your Name, Image, and Likeness — prevent commercial misappropriation, AI deepfakes, and unauthorized digital replicas",
     icon: Shield,
     category: "identity",
     route: "/identity",

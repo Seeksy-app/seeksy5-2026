@@ -13,11 +13,11 @@ export const IdentityRightsSection = () => {
           <div className="flex items-center justify-center gap-3 mb-4">
             <Shield className="h-12 w-12 text-primary" />
             <h2 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Your Identity, Verified.
+              Your NIL, Protected.
             </h2>
           </div>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-medium">
-            Creators control how their face, voice, and likeness are used.
+            Protect your Name, Image, and Likeness — prevent commercial misappropriation, AI deepfakes, and unauthorized use.
           </p>
         </div>
 

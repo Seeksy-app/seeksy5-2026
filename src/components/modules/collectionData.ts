@@ -70,8 +70,8 @@ export const SEEKSY_COLLECTIONS: SeeksyCollection[] = [
   },
   {
     id: "identity-profile",
-    name: "Identity & Profile",
-    description: "Build your personal brand with verified identity and creator page",
+    name: "Identity & NIL Protection",
+    description: "Protect your Name, Image, and Likeness with blockchain-verified rights and content monitoring",
     icon: Shield,
     color: "#059669",
     bgGradient: "bg-gradient-to-br from-emerald-100 via-teal-50 to-cyan-100",
