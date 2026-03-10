@@ -131,6 +131,7 @@ const PublicBlog = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background">
+        <TopNavigation />
         {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Hero Background Image */}
