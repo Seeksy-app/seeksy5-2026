@@ -38,11 +38,11 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
         transition={{ duration: 0.5 }}
         className="relative z-10 mx-auto max-w-[680px] w-full text-center rounded-3xl px-10 py-16 sm:px-16 sm:py-20"
         style={{
-          background: "rgba(255, 255, 255, 0.72)",
-          backdropFilter: "blur(24px) saturate(1.8)",
-          WebkitBackdropFilter: "blur(24px) saturate(1.8)",
+          background: "rgba(255, 255, 255, 0.25)",
+          backdropFilter: "blur(8px)",
+          WebkitBackdropFilter: "blur(8px)",
           boxShadow: "0 8px 60px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
-          border: "1px solid rgba(255,255,255,0.5)",
+          border: "1px solid rgba(255,255,255,0.3)",
         }}
       >
         {/* Eyebrow */}
