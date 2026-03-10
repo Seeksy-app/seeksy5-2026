@@ -47,7 +47,7 @@ export default function BroadcastStudio() {
   // Multi-Platform Settings
   const [audioOnlyMode, setAudioOnlyMode] = useState(false);
   const [platforms, setPlatforms] = useState({
-    myPage: { enabled: true, paired: true, title: 'My Page', icon: 'Users' },
+    myPage: { enabled: true, paired: true, title: 'Shareable Profile Page', icon: 'Users' },
     youtube: { enabled: false, paired: false, title: 'YouTube', icon: 'Youtube' },
     spotify: { enabled: false, paired: false, title: 'Spotify', icon: 'Music' }
   });
