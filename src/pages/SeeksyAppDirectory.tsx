@@ -178,6 +178,8 @@ function RequestInfoButton({
     </TooltipProvider>
   );
 }
+
+function BundleCard({ collection, requested, onRequest }: { collection: SeeksyCollection; requested: boolean; onRequest: (name: string) => void }) {
   const navigate = useNavigate();
   const Icon = collection.icon;
   const heroImage = COLLECTION_HERO_MAP[collection.id] || heroStudio;
@@ -186,6 +188,7 @@ function RequestInfoButton({
   return (
     <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow border border-border/60">
       <div className="relative h-52 overflow-hidden">
+        <RequestInfoButton itemName={collection.name} requested={requested} onRequest={onRequest} />
         <img src={heroImage} alt={collection.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
         {collection.isPopular && (
@@ -232,8 +235,6 @@ function RequestInfoButton({
     </Card>
   );
 }
-
-function AppCard({ module }: { module: SeeksyModule }) {
   const Icon = module.icon;
   const heroImage = MODULE_HERO_MAP[module.id] || heroStudio;
   const details = APP_DETAILS[module.id];
