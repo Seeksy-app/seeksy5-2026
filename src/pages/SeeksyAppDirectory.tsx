@@ -194,19 +194,9 @@ function BundleCard({ collection }: { collection: SeeksyCollection }) {
 }
 
 function AppCard({ module }: { module: SeeksyModule }) {
-  const [copied, setCopied] = useState(false);
   const Icon = module.icon;
   const heroImage = MODULE_HERO_MAP[module.id] || heroStudio;
   const details = APP_DETAILS[module.id];
-
-  const handleCopy = () => {
-    const text = details
-      ? `**${module.name}**\n${details.tagline}\n\n${details.longDescription}\n\nFeatures:\n${details.features.map(f => `• ${f}`).join('\n')}\n\nBest for: ${details.bestFor.join(', ')}`
-      : `${module.name}: ${module.description}`;
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const tagline = details?.tagline || module.description;
   const longDescription = details?.longDescription || "";
@@ -223,21 +213,16 @@ function AppCard({ module }: { module: SeeksyModule }) {
         </div>
       </div>
       <CardContent className="p-5 space-y-3">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center gap-3">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${module.iconBg || "bg-primary/10"}`}>
-              <Icon className={`h-5 w-5 ${module.iconColor || "text-primary"}`} />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-bold text-foreground">{module.name}</h3>
-              </div>
-              <p className="text-xs text-muted-foreground">{getCategoryName(module.category)}</p>
-            </div>
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${module.iconBg || "bg-primary/10"}`}>
+            <Icon className={`h-5 w-5 ${module.iconColor || "text-primary"}`} />
           </div>
-          <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={handleCopy}>
-            {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
-          </Button>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-bold text-foreground">{module.name}</h3>
+            </div>
+            <p className="text-xs text-muted-foreground">{getCategoryName(module.category)}</p>
+          </div>
         </div>
 
         <p className="text-sm font-medium text-foreground leading-snug">{tagline}</p>
