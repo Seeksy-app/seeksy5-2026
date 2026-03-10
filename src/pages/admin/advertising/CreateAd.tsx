@@ -189,7 +189,7 @@ export default function CreateAd() {
                 <SelectContent>
                   {campaigns?.map((campaign) => (
                     <SelectItem key={campaign.id} value={campaign.id}>
-                      {campaign.name} ({campaign.advertisers?.company_name})
+                      {campaign.name} ({(campaign as any).advertisers?.company_name})
                     </SelectItem>
                   ))}
                 </SelectContent>

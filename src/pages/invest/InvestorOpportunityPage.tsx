@@ -105,7 +105,7 @@ export default function InvestorOpportunityPage() {
         .order("display_order");
       
       if (error) throw error;
-      return data as OpportunityVideo[];
+      return data as unknown as OpportunityVideo[];
     },
     enabled: !!opportunity?.id && isUnlocked,
   });
