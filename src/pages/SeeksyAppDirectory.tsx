@@ -299,8 +299,12 @@ function AppCard({ module, requested, onRequest }: { module: SeeksyModule; reque
     </Card>
   );
 }
+export default function SeeksyAppDirectory() {
   const [tab, setTab] = useState<"bundles" | "apps">("bundles");
   const { email, sessionId, startSession } = useProspectusGate();
+  const [requestedItems, setRequestedItems] = useState<Set<string>>(new Set());
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [lastRequestedName, setLastRequestedName] = useState("");
 
   // Track session duration
   useUpdateSessionDuration(sessionId);
@@ -314,6 +318,22 @@ function AppCard({ module, requested, onRequest }: { module: SeeksyModule; reque
     (supabase.from("prospectus_page_views") as any)
       .insert({ session_id: sessionId, page_name: name, viewed_at: new Date().toISOString() });
   };
+
+  const handleRequestInfo = useCallback((itemName: string) => {
+    setRequestedItems(prev => new Set(prev).add(itemName));
+    setLastRequestedName(itemName);
+    setShowConfirmDialog(true);
+
+    // Log the request
+    if (sessionId) {
+      (supabase.from("prospectus_page_views") as any)
+        .insert({ 
+          session_id: sessionId, 
+          page_name: `INFO_REQUEST: ${itemName}`, 
+          viewed_at: new Date().toISOString() 
+        });
+    }
+  }, [sessionId]);
 
   if (!email) {
     return <EmailGate onSubmit={startSession} />;
@@ -354,7 +374,11 @@ function AppCard({ module, requested, onRequest }: { module: SeeksyModule; reque
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {SEEKSY_COLLECTIONS.map((collection) => (
               <div key={collection.id} onMouseEnter={() => trackCardView(collection.name)}>
-                <BundleCard collection={collection} />
+                <BundleCard 
+                  collection={collection} 
+                  requested={requestedItems.has(collection.name)}
+                  onRequest={handleRequestInfo}
+                />
               </div>
             ))}
           </div>
@@ -362,13 +386,41 @@ function AppCard({ module, requested, onRequest }: { module: SeeksyModule; reque
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {SEEKSY_MODULES.map((module) => (
               <div key={module.id} onMouseEnter={() => trackCardView(module.name)}>
-                <AppCard module={module} />
+                <AppCard 
+                  module={module}
+                  requested={requestedItems.has(module.name)}
+                  onRequest={handleRequestInfo}
+                />
               </div>
             ))}
           </div>
         )}
       </main>
       <FooterSection />
+
+      {/* Confirmation Dialog */}
+      <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+        <DialogContent className="sm:max-w-md text-center">
+          <DialogHeader className="items-center">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", stiffness: 200, damping: 15 }}
+              className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-2"
+            >
+              <Check className="h-7 w-7 text-green-600" />
+            </motion.div>
+            <DialogTitle className="text-xl font-bold text-foreground">Info Requested!</DialogTitle>
+            <DialogDescription className="text-muted-foreground text-sm leading-relaxed pt-1">
+              Thanks for your interest in <span className="font-semibold text-foreground">{lastRequestedName}</span>. 
+              Someone from our team will reach out shortly with more information.
+            </DialogDescription>
+          </DialogHeader>
+          <Button onClick={() => setShowConfirmDialog(false)} className="mt-2 rounded-full">
+            Continue Browsing
+          </Button>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
