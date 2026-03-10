@@ -186,14 +186,14 @@ export function CustomPackageBuilder({ open, onOpenChange, modules, editPackage 
 
       if (editPackage) {
         // Update existing package
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('custom_packages')
           .update(packageData)
           .eq('id', editPackage.id);
         if (error) throw error;
       } else {
         // Insert new package
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('custom_packages')
           .insert(packageData);
         if (error) throw error;

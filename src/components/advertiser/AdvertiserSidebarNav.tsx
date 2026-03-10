@@ -119,7 +119,7 @@ export function AdvertiserSidebarNav() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error('Not authenticated');
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update({
           advertiser_onboarding_completed: false,

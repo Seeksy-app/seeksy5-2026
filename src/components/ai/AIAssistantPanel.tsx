@@ -77,16 +77,16 @@ export function AIAssistantPanel() {
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
-      const { data } = await supabase
+      const { data } = await (supabase as any)
         .from("profiles")
         .select("account_full_name")
         .eq("id", user.id)
         .single();
-      return data;
+      return data as any;
     },
   });
 
-  const firstName = profile?.account_full_name?.split(" ")[0] || "there";
+  const firstName = (profile as any)?.account_full_name?.split(" ")[0] || "there";
 
   // NEW WELCOME MESSAGE from spec
   const welcomeMessage = `Hi ${firstName} — I'm Spark, your Seeksy AI copilot.

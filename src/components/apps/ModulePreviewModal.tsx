@@ -41,13 +41,13 @@ export function ModulePreviewModal({ open, onOpenChange, module }: ModulePreview
     queryKey: ['module-tooltip', module?.id],
     queryFn: async () => {
       if (!module?.id) return null;
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('module_tooltips')
         .select('*')
         .eq('module_id', module.id)
         .maybeSingle();
       if (error) throw error;
-      return data;
+      return data as any;
     },
     enabled: !!module?.id,
   });

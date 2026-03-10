@@ -34,7 +34,7 @@ export function QuickCampaignStats({ campaignId }: QuickCampaignStatsProps) {
   const { data: impressions, isLoading: impressionsLoading } = useQuery({
     queryKey: ["campaign-impressions", campaignId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("ad_impressions")
         .select(`
           id,
@@ -50,7 +50,7 @@ export function QuickCampaignStats({ campaignId }: QuickCampaignStatsProps) {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 

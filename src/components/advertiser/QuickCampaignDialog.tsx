@@ -36,7 +36,7 @@ export function QuickCampaignDialog({ open, onOpenChange, adId, adType }: QuickC
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("advertisers")
         .select("*")
         .eq("owner_profile_id", user.id)
