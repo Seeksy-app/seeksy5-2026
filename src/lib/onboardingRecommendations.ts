@@ -122,7 +122,7 @@ export const DASHBOARD_PREVIEWS: Record<string, DashboardPreviewConfig> = {
     quickActions: [
       { label: "Connect Accounts", icon: "Link" },
       { label: "View Analytics", icon: "BarChart" },
-      { label: "Edit My Page", icon: "Layout" },
+      { label: "Edit Profile Page", icon: "Layout" },
     ],
     panels: ["Social Analytics", "Monetization Hub", "Audience Insights", "Brand Campaigns"],
   },
