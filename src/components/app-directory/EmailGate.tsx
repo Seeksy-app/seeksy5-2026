@@ -130,7 +130,8 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.65 }}
-          className="text-xs text-muted-foreground mt-4"
+          className="text-xs mt-4"
+          style={{ color: "rgba(255,255,255,0.9)" }}
         >
           No signup required · We just want to know who's interested
         </motion.p>
