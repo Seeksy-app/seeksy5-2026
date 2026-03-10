@@ -8,12 +8,12 @@ export function InvestorAnalyticsCards() {
   const { data: links } = useQuery({
     queryKey: ['investorLinksStats'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('investor_links')
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
-      return data;
+      return (data as any[]) || [];
     },
   });
 
