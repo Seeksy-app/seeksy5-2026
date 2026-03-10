@@ -146,7 +146,7 @@ export function OpportunityInlineEditor({ opportunity, onClose }: OpportunityInl
 
   const saveVideosMutation = useMutation({
     mutationFn: async (videoIds: string[]) => {
-      await (supabase.from("sales_opportunity_videos") as any)
+      await (supabase as any).from("sales_opportunity_videos")
         .delete()
         .eq("opportunity_id", opportunity.id);
       if (videoIds.length > 0) {
