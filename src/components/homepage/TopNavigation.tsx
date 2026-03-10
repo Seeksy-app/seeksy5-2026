@@ -219,15 +219,27 @@ export function TopNavigation() {
               </div>
 
               {/* Simple Nav Links */}
-              {navLinks.map((link) => (
-                <button
-                  key={link.label}
-                  onClick={() => handleNavigation(link.href)}
-                  className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-50"
-                >
-                  {link.label}
-                </button>
-              ))}
+              {navLinks.map((link) => 
+                link.newTab ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-50"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <button
+                    key={link.label}
+                    onClick={() => handleNavigation(link.href)}
+                    className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-50"
+                  >
+                    {link.label}
+                  </button>
+                )
+              )}
             </div>
 
             {/* Desktop CTA */}
