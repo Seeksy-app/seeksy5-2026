@@ -82,32 +82,23 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center gap-3 mx-auto"
-          style={{ marginTop: "28px", maxWidth: "440px" }}
+          className="flex flex-col sm:flex-row items-center gap-3 mx-auto mt-7 max-w-[440px]"
         >
           <div className="relative flex-1 w-full">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px]" style={{ color: "#94A3B8" }} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
             <Input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-11 h-[50px] text-base rounded-xl border-2 bg-white focus:ring-2 focus:ring-blue-200"
-              style={{ borderColor: "#E2E8F0", color: "#1E293B" }}
+              className="pl-11 h-[50px] text-base rounded-xl border-2 border-border bg-background text-foreground focus:ring-2 focus:ring-primary/30"
               required
               autoFocus
             />
           </div>
           <Button
             type="submit"
-            className="rounded-xl font-semibold w-full sm:w-auto whitespace-nowrap text-white shadow-lg hover:shadow-xl transition-shadow"
-            style={{
-              background: "linear-gradient(135deg, #2C6BED 0%, #1D4ED8 100%)",
-              height: "50px",
-              paddingLeft: "28px",
-              paddingRight: "28px",
-              fontSize: "15px",
-            }}
+            className="rounded-xl font-semibold w-full sm:w-auto whitespace-nowrap text-primary-foreground bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-shadow h-[50px] px-7 text-[15px]"
             disabled={loading || !email.includes("@")}
           >
             {loading ? "Loading..." : "View Apps"}
@@ -120,8 +111,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.65 }}
-          className="text-xs"
-          style={{ color: "#94A3B8", marginTop: "14px" }}
+          className="text-xs text-muted-foreground mt-3.5"
         >
           No signup required · We just want to know who's interested
         </motion.p>
