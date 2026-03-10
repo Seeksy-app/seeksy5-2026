@@ -25,25 +25,20 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
     <section
       className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden"
     >
-      {/* Background image with lighter overlay */}
+      {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${productiveTeamBg})` }}
       />
-      <div className="absolute inset-0 bg-black/20" />
+      {/* Gradient overlay matching hero pattern */}
+      <div className="absolute inset-0 bg-gradient-to-r from-accent/80 via-accent/50 to-transparent" />
 
-      {/* Frosted glass card */}
+      {/* Floating card - 30% card opacity with backdrop-blur-sm */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mx-auto max-w-[620px] w-full text-center rounded-2xl px-8 py-12 sm:px-12 sm:py-16"
-        style={{
-          background: "rgba(255,255,255,0.65)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-        }}
+        className="relative z-10 mx-auto max-w-[620px] w-full text-center rounded-2xl px-8 py-12 sm:px-12 sm:py-16 bg-card/30 backdrop-blur-sm shadow-2xl"
       >
         {/* Eyebrow */}
         <motion.p
