@@ -139,7 +139,7 @@ const DEFAULT_WIDGETS: WidgetConfig[] = [
   { id: "profile-views", label: "Profile Visits", enabled: true, category: "mypage" },
   { id: "link-clicks", label: "Link Clicks", enabled: true, category: "mypage" },
   { id: "engagement", label: "Engagement Rate", enabled: true, category: "mypage" },
-  { id: "stream-analytics", label: "My Page Streaming", enabled: true, category: "mypage" },
+  { id: "stream-analytics", label: "Profile Page Streaming", enabled: true, category: "mypage" },
   { id: "clicks-by-type", label: "Clicks by Type", enabled: true, category: "mypage" },
   { id: "top-links", label: "Top Performing Links", enabled: true, category: "mypage" },
   { id: "social-media", label: "Social Media Analytics", enabled: true, category: "engagement" },
