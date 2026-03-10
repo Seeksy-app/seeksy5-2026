@@ -41,7 +41,7 @@ export function EventCheckIn({ eventId }: EventCheckInProps) {
         .order("attendee_name");
 
       if (error) throw error;
-      setAttendees(data || []);
+      setAttendees((data as any[]) || []);
     } catch (error) {
       console.error("Error loading attendees:", error);
     } finally {

@@ -228,7 +228,7 @@ export function useSections() {
       .order('display_order');
 
     if (data) {
-      setSections(data);
+      setSections(data as any[]);
     }
   };
 

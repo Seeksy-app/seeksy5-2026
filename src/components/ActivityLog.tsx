@@ -59,7 +59,7 @@ export default function ActivityLog() {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setActivities(data || []);
+      setActivities((data as any[]) || []);
     } catch (error) {
       console.error("Error fetching activities:", error);
     } finally {

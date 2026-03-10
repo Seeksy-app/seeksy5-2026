@@ -82,7 +82,7 @@ export function CategoryManager({ open, onOpenChange, onCategoryChange }: Catego
       return;
     }
 
-    setCategories(data);
+    setCategories(data as any[]);
   };
 
   const createDefaultCategories = async (userId: string) => {

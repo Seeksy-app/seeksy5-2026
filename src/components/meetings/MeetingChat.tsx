@@ -41,7 +41,7 @@ const MeetingChat: React.FC<MeetingChatProps> = ({ meetingId, onClose }) => {
         .eq('meeting_id', meetingId)
         .order('created_at', { ascending: true });
       
-      setMessages(data || []);
+      setMessages((data as any[]) || []);
     };
 
     fetchMessages();

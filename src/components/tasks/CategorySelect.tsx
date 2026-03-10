@@ -40,7 +40,7 @@ export function CategorySelect({ value, onValueChange, onManageCategories }: Cat
       .order('name');
 
     if (data) {
-      setCategories(data);
+      setCategories(data as any[]);
     }
   };
 
