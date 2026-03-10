@@ -68,7 +68,7 @@ export function QuickCampaignStats({ campaignId }: QuickCampaignStatsProps) {
   }, {} as Record<string, { count: number; profile: any }>);
 
   const topCreators = Object.entries(creatorImpressions || {})
-    .sort(([, a], [, b]) => b.count - a.count)
+    .sort(([, a], [, b]) => (b as any).count - (a as any).count)
     .slice(0, 5);
 
   if (campaignLoading) {
