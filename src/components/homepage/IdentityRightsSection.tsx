@@ -101,7 +101,7 @@ export const IdentityRightsSection = () => {
             onClick={() => navigate("/auth?mode=signup")}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-10 py-7 h-auto hover:scale-105 transition-transform"
           >
-            Verify Your Identity
+            Protect Your NIL
           </Button>
         </div>
       </div>
