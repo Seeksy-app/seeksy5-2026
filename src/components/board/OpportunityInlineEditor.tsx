@@ -90,7 +90,7 @@ export function OpportunityInlineEditor({ opportunity, onClose }: OpportunityInl
   const { data: allProformas } = useQuery({
     queryKey: ["opportunity-proformas-all", opportunity.id],
     queryFn: async () => {
-      const result = await (supabase.from("opportunity_proformas") as any)
+      const result = await (supabase as any).from("opportunity_proformas")
         .select("*")
         .eq("opportunity_id", opportunity.id)
         .eq("status", "active")
