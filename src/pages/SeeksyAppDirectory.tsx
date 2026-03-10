@@ -162,7 +162,7 @@ function RequestInfoButton({
               e.stopPropagation();
               if (!requested) onRequest(itemName);
             }}
-            className={`absolute top-3 left-3 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md ${
+            className={`absolute bottom-3 right-3 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md ${
               requested
                 ? "bg-green-500 text-white"
                 : "bg-white/90 text-muted-foreground hover:bg-primary hover:text-primary-foreground"
