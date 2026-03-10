@@ -39,7 +39,7 @@ export const StickyMemberNotes: React.FC<StickyMemberNotesProps> = ({
   const fetchMyNotes = useCallback(async () => {
     if (!user || !meetingId) return;
 
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("board_meeting_member_notes")
       .select("notes_md, updated_at")
       .eq("meeting_id", meetingId)
@@ -47,8 +47,8 @@ export const StickyMemberNotes: React.FC<StickyMemberNotesProps> = ({
       .maybeSingle();
 
     if (data) {
-      setMyNotes(data.notes_md || "");
-      setLastSaved(new Date(data.updated_at));
+      setMyNotes((data as any).notes_md || "");
+      setLastSaved(new Date((data as any).updated_at));
     }
   }, [user, meetingId]);
 
