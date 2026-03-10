@@ -38,7 +38,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mx-auto max-w-[680px] w-full text-center rounded-2xl px-8 py-14 sm:px-14 sm:py-18 bg-slate-200/40 backdrop-blur-md shadow-2xl border border-white/10"
+        className="relative z-10 mx-auto max-w-[680px] w-full text-center rounded-2xl px-8 py-14 sm:px-14 sm:py-18 className="relative z-10 mx-auto max-w-[680px] w-full text-center rounded-2xl px-8 py-14 sm:px-14 sm:py-18 bg-slate-200/30 backdrop-blur-md shadow-2xl border border-white/10" shadow-2xl border border-white/10"
       >
         {/* Eyebrow */}
         <motion.p
