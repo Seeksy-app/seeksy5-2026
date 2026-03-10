@@ -113,7 +113,7 @@ export const TicketsTab = ({ userId }: TicketsTabProps) => {
     const query = searchQuery.toLowerCase();
     return tickets.filter((ticket) => {
       const ticketId = ticket.id.toLowerCase();
-      const contactName = ticket.contacts?.name?.toLowerCase() || "";
+      const contactName = (ticket as any).contacts?.name?.toLowerCase() || "";
       const title = ticket.title?.toLowerCase() || "";
       const description = ticket.description?.toLowerCase() || "";
       
