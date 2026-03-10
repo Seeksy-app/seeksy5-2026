@@ -69,7 +69,7 @@ export function IdentityWidget({ faceVerified = false, voiceVerified = false }: 
               <div className={cn("p-2.5 rounded-xl text-white shadow-md", config.iconBg)}>
                 <Shield className="h-5 w-5" />
               </div>
-              <span className="font-bold text-base">Identity Verification</span>
+              <span className="font-bold text-base">NIL Protection</span>
             </div>
             <Badge className={cn("text-xs font-semibold px-3 py-1 rounded-full", config.badgeBg)}>
               <StatusIcon className="h-3.5 w-3.5 mr-1.5" />
