@@ -39,9 +39,9 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
         transition={{ duration: 0.5 }}
         className="relative z-10 mx-auto max-w-[620px] w-full text-center rounded-2xl px-8 py-12 sm:px-12 sm:py-16"
         style={{
-          background: "rgba(255,255,255,0.85)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
+          background: "rgba(255,255,255,0.65)",
+          backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
           boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
         }}
       >
