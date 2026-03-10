@@ -1699,6 +1699,74 @@ export type Database = {
         }
         Relationships: []
       }
+      prospectus_page_views: {
+        Row: {
+          id: string
+          page_name: string
+          session_id: string
+          time_spent_seconds: number | null
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          page_name: string
+          session_id: string
+          time_spent_seconds?: number | null
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          page_name?: string
+          session_id?: string
+          time_spent_seconds?: number | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "prospectus_page_views_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "prospectus_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      prospectus_sessions: {
+        Row: {
+          created_at: string | null
+          duration_seconds: number | null
+          email: string
+          id: string
+          ip_address: string | null
+          is_internal: boolean | null
+          session_end: string | null
+          session_start: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          duration_seconds?: number | null
+          email: string
+          id?: string
+          ip_address?: string | null
+          is_internal?: boolean | null
+          session_end?: string | null
+          session_start?: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          duration_seconds?: number | null
+          email?: string
+          id?: string
+          ip_address?: string | null
+          is_internal?: boolean | null
+          session_end?: string | null
+          session_start?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       saved_email_templates: {
         Row: {
           created_at: string | null
