@@ -19,7 +19,7 @@ export function SponsorshipFlyerUpload({ programId, currentFlyerUrl }: Sponsorsh
 
   const updateFlyerMutation = useMutation({
     mutationFn: async (url: string) => {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("awards_programs")
         .update({ sponsorship_flyer_url: url })
         .eq("id", programId);

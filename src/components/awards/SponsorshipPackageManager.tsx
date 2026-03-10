@@ -96,7 +96,7 @@ export function SponsorshipPackageManager({ programId }: SponsorshipPackageManag
             who_pays_processing: "sponsor",
           };
 
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("award_sponsorship_packages")
         .insert({
           program_id: programId,
