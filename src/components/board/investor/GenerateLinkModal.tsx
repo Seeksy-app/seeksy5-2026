@@ -183,7 +183,7 @@ export function GenerateLinkModal({ open, onOpenChange, onSuccess }: GenerateLin
       const passcode = generatePasscode();
       const expiresAt = calculateExpiration();
 
-      const { data, error } = await supabase.from('investor_links').insert({
+      const { data, error } = await (supabase as any).from('investor_links').insert({
         token,
         passcode,
         investor_name: investorName || null,
