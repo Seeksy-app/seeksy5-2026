@@ -25,4 +25,10 @@ if ('serviceWorker' in navigator) {
 initFaviconRotation();
 
 console.log('[Boot] Rendering React app...');
-createRoot(document.getElementById("root")!).render(<App />);
+const root = document.getElementById("root")!;
+createRoot(root).render(<App />);
+
+// Remove initial loader and reveal app
+const loader = document.getElementById("initial-loader");
+if (loader) loader.remove();
+root.classList.add("ready");

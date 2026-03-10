@@ -2,24 +2,24 @@ import { useEffect, useRef, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Page transition variants - subtle fade + slight movement
+// Subtle transition - no opacity flash on initial render
 const pageVariants = {
   initial: { 
-    opacity: 0,
-    y: 8,
+    opacity: 0.85,
+    y: 4,
   },
   animate: { 
     opacity: 1,
     y: 0,
   },
   exit: { 
-    opacity: 0,
-    y: -8,
+    opacity: 0.85,
+    y: -4,
   },
 };
 
 const pageTransition = {
-  duration: 0.15,
+  duration: 0.12,
   ease: "easeOut" as const,
 };
 
