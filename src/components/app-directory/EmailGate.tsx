@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, ArrowRight, Play } from "lucide-react";
 import { motion } from "framer-motion";
+import productiveTeamBg from "@/assets/productive-team-bg.jpg";
 
 interface EmailGateProps {
   onSubmit: (email: string) => void;
@@ -22,12 +23,16 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
 
   return (
     <section
-      className="w-full min-h-screen flex items-center justify-center px-6"
-      style={{
-        background: "linear-gradient(180deg, hsl(var(--muted)/0.25) 0%, hsl(var(--background)) 100%)",
-      }}
+      className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden"
     >
-      <div className="mx-auto max-w-[560px] w-full text-center">
+      {/* Background image with overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${productiveTeamBg})` }}
+      />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+
+      <div className="relative z-10 mx-auto max-w-[560px] w-full text-center">
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
@@ -37,7 +42,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           style={{
             fontSize: "12px",
             letterSpacing: "2px",
-            color: "#2C6BED",
+            color: "#6BA3FF",
             marginBottom: "18px",
           }}
         >
@@ -54,11 +59,11 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
             fontSize: "clamp(36px, 6vw, 64px)",
             lineHeight: 1.02,
             letterSpacing: "-2px",
-            color: "#0B1220",
+            color: "#FFFFFF",
           }}
         >
           Seeksy App{" "}
-          <span style={{ color: "#2C6BED" }}>Directory.</span>
+          <span style={{ color: "#6BA3FF" }}>Directory.</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -69,14 +74,14 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           style={{
             fontSize: "18px",
             lineHeight: 1.55,
-            color: "#667085",
+            color: "#CBD5E1",
             marginTop: "16px",
             maxWidth: "460px",
             marginLeft: "auto",
             marginRight: "auto",
           }}
         >
-          Enter your email to explore our full suite of 35+ creator tools and 7 curated bundles.
+          Enter your email to access 35+ AI-first productivity applications and 7 curated bundles designed for licensing, partnership, or acquisition.
         </motion.p>
 
         {/* Email Form */}
@@ -95,8 +100,8 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-[52px] text-base rounded-full border"
-              style={{ borderColor: "#E6EAF2" }}
+              className="pl-10 h-[52px] text-base rounded-full border bg-white/10 text-white placeholder:text-white/50"
+              style={{ borderColor: "rgba(255,255,255,0.2)" }}
               required
               autoFocus
             />
@@ -124,7 +129,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.65 }}
           className="text-xs"
-          style={{ color: "#6B7280", marginTop: "14px" }}
+          style={{ color: "rgba(255,255,255,0.5)", marginTop: "14px" }}
         >
           No signup required · We just want to know who's interested
         </motion.p>
