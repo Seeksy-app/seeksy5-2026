@@ -207,7 +207,7 @@ function BundleCard({ collection }: { collection: SeeksyCollection }) {
 function AppCard({ module }: { module: SeeksyModule }) {
   const [copied, setCopied] = useState(false);
   const Icon = module.icon;
-  const heroImage = MODULE_HERO_MAP[module.id] || CATEGORY_HERO_MAP[module.category] || heroStudio;
+  const heroImage = MODULE_HERO_MAP[module.id] || heroStudio;
   const details = APP_DETAILS[module.id];
 
   const handleCopy = () => {
