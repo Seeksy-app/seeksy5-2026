@@ -226,7 +226,7 @@ function AppCard({ module }: { module: SeeksyModule }) {
 
   return (
     <Card className="group relative overflow-hidden hover:shadow-lg transition-shadow border border-border/60">
-      <div className="relative h-36 overflow-hidden">
+      <div className="relative h-52 overflow-hidden">
         <img src={heroImage} alt={module.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         <div className="absolute top-2 right-2 flex gap-1">
           {module.isNew && <Badge className="bg-primary text-primary-foreground text-[10px] px-1.5 py-0.5">New</Badge>}
