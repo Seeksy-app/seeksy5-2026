@@ -25,38 +25,27 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
     <section
       className="w-full min-h-screen flex items-center justify-center px-6 relative overflow-hidden"
     >
-      {/* Background image with lighter overlay */}
+      {/* Background image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${productiveTeamBg})` }}
       />
-      <div className="absolute inset-0 bg-black/20" />
+      {/* Gradient overlay matching hero pattern */}
+      <div className="absolute inset-0 bg-gradient-to-r from-accent/80 via-accent/50 to-transparent" />
 
-      {/* Frosted glass card */}
+      {/* Floating card - 30% card opacity with backdrop-blur-sm */}
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mx-auto max-w-[620px] w-full text-center rounded-2xl px-8 py-12 sm:px-12 sm:py-16"
-        style={{
-          background: "rgba(255,255,255,0.65)",
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.15)",
-        }}
+        className="relative z-10 mx-auto max-w-[620px] w-full text-center rounded-2xl px-8 py-12 sm:px-12 sm:py-16 bg-card/30 backdrop-blur-sm shadow-2xl"
       >
         {/* Eyebrow */}
         <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="font-bold uppercase"
-          style={{
-            fontSize: "12px",
-            letterSpacing: "2px",
-            color: "#2C6BED",
-            marginBottom: "18px",
-          }}
+          className="font-bold uppercase text-xs tracking-[2px] text-primary mb-4"
         >
           Explore the platform
         </motion.p>
@@ -66,16 +55,15 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="font-black"
+          className="font-black text-foreground"
           style={{
             fontSize: "clamp(32px, 5vw, 52px)",
             lineHeight: 1.08,
             letterSpacing: "-1.5px",
-            color: "#0B1220",
           }}
         >
           Seeksy App{" "}
-          <span style={{ color: "#2C6BED" }}>Directory.</span>
+          <span className="text-primary">Directory.</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -83,15 +71,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          style={{
-            fontSize: "16px",
-            lineHeight: 1.6,
-            color: "#475569",
-            marginTop: "14px",
-            maxWidth: "440px",
-            marginLeft: "auto",
-            marginRight: "auto",
-          }}
+          className="text-base leading-relaxed text-muted-foreground mt-3.5 max-w-[440px] mx-auto"
         >
           A suite of 35+ AI-first workplace applications — available for enterprise licensing, partnership, or strategic acquisition.
         </motion.p>
@@ -102,32 +82,23 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex flex-col sm:flex-row items-center gap-3 mx-auto"
-          style={{ marginTop: "28px", maxWidth: "440px" }}
+          className="flex flex-col sm:flex-row items-center gap-3 mx-auto mt-7 max-w-[440px]"
         >
           <div className="relative flex-1 w-full">
-            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px]" style={{ color: "#94A3B8" }} />
+            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
             <Input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-11 h-[50px] text-base rounded-xl border-2 bg-white focus:ring-2 focus:ring-blue-200"
-              style={{ borderColor: "#E2E8F0", color: "#1E293B" }}
+              className="pl-11 h-[50px] text-base rounded-xl border-2 border-border bg-background text-foreground focus:ring-2 focus:ring-primary/30"
               required
               autoFocus
             />
           </div>
           <Button
             type="submit"
-            className="rounded-xl font-semibold w-full sm:w-auto whitespace-nowrap text-white shadow-lg hover:shadow-xl transition-shadow"
-            style={{
-              background: "linear-gradient(135deg, #2C6BED 0%, #1D4ED8 100%)",
-              height: "50px",
-              paddingLeft: "28px",
-              paddingRight: "28px",
-              fontSize: "15px",
-            }}
+            className="rounded-xl font-semibold w-full sm:w-auto whitespace-nowrap text-primary-foreground bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-shadow h-[50px] px-7 text-[15px]"
             disabled={loading || !email.includes("@")}
           >
             {loading ? "Loading..." : "View Apps"}
@@ -140,8 +111,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.65 }}
-          className="text-xs"
-          style={{ color: "#94A3B8", marginTop: "14px" }}
+          className="text-xs text-muted-foreground mt-3.5"
         >
           No signup required · We just want to know who's interested
         </motion.p>
