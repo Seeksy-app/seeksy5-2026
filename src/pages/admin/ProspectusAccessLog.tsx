@@ -54,7 +54,7 @@ export default function ProspectusAccessLog() {
   const [sessions, setSessions] = useState<Session[]>([]);
   const [pageViews, setPageViews] = useState<PageView[]>([]);
   const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<"sessions" | "person">("person");
+  const [view, setView] = useState<"sessions" | "person" | "requests">("person");
   const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   useEffect(() => {
