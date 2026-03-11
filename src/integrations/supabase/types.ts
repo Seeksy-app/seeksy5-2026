@@ -1157,8 +1157,11 @@ export type Database = {
           icon_color: string | null
           id: string
           is_active: boolean | null
+          is_default: boolean | null
+          modules: Json | null
           name: string
           price: number | null
+          slug: string | null
           updated_at: string | null
           user_id: string | null
         }
@@ -1169,8 +1172,11 @@ export type Database = {
           icon_color?: string | null
           id?: string
           is_active?: boolean | null
+          is_default?: boolean | null
+          modules?: Json | null
           name: string
           price?: number | null
+          slug?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -1181,8 +1187,11 @@ export type Database = {
           icon_color?: string | null
           id?: string
           is_active?: boolean | null
+          is_default?: boolean | null
+          modules?: Json | null
           name?: string
           price?: number | null
+          slug?: string | null
           updated_at?: string | null
           user_id?: string | null
         }
