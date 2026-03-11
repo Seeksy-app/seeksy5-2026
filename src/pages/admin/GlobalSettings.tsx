@@ -1,6 +1,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Settings, Snowflake, PartyPopper } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Settings, Snowflake, PartyPopper, Eye, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -8,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function GlobalSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: settings } = useQuery({
     queryKey: ['app-settings'],
@@ -97,6 +100,30 @@ export default function GlobalSettings() {
               checked={settings?.holiday_snow || false}
               onCheckedChange={(checked) => updateSetting.mutate({ field: 'holiday_snow', value: checked })}
             />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Demo Sessions</CardTitle>
+          <CardDescription>View App Directory visitor sessions and engagement analytics</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Eye className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="font-medium">App Directory Access Log</p>
+                <p className="text-sm text-muted-foreground">Track who's viewing the app directory, session duration, and which apps they explore</p>
+              </div>
+            </div>
+            <Button variant="outline" onClick={() => navigate("/admin/prospectus-log")}>
+              View Sessions
+              <ArrowRight className="h-4 w-4 ml-2" />
+            </Button>
           </div>
         </CardContent>
       </Card>
