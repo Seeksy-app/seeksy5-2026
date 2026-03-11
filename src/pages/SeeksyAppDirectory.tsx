@@ -1,8 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, CheckCircle2, PlusCircle, Check } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { Users, Eye, CheckCircle2, PlusCircle, Check, ArrowUpDown } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { FooterSection } from "@/components/homepage/FooterSection";
 import { SEEKSY_COLLECTIONS, type SeeksyCollection } from "@/components/modules/collectionData";
