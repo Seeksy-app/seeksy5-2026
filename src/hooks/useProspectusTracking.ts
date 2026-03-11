@@ -10,48 +10,51 @@ interface ProspectusSession {
   startTime: number;
 }
 
+function clearStoredProspectusSession() {
+  sessionStorage.removeItem(SESSION_KEY);
+  sessionStorage.removeItem(EMAIL_KEY);
+}
+
 export function useProspectusGate() {
   const [email, setEmail] = useState<string | null>(() => {
     return sessionStorage.getItem(EMAIL_KEY);
   });
   const [sessionId, setSessionId] = useState<string | null>(null);
 
-  // On mount, validate any stored session still exists in the DB
+  // Restore any stored session locally without requiring public reads from the database
   useEffect(() => {
     const stored = sessionStorage.getItem(SESSION_KEY);
     if (!stored) return;
 
-    const parsed = JSON.parse(stored) as ProspectusSession;
+    try {
+      const parsed = JSON.parse(stored) as ProspectusSession;
+      if (!parsed?.id || !parsed?.email) {
+        clearStoredProspectusSession();
+        setEmail(null);
+        setSessionId(null);
+        return;
+      }
 
-    // Verify the session exists in the database
-    (supabase.from("prospectus_sessions") as any)
-      .select("id")
-      .eq("id", parsed.id)
-      .single()
-      .then(({ data, error }: any) => {
-        if (data && !error) {
-          setSessionId(parsed.id);
-        } else {
-          // Session doesn't exist in DB (e.g., after remix) — clear and re-gate
-          sessionStorage.removeItem(SESSION_KEY);
-          sessionStorage.removeItem(EMAIL_KEY);
-          setEmail(null);
-          setSessionId(null);
-        }
-      });
+      setEmail(parsed.email);
+      setSessionId(parsed.id);
+    } catch {
+      clearStoredProspectusSession();
+      setEmail(null);
+      setSessionId(null);
+    }
   }, []);
 
   const startSession = useCallback(async (inputEmail: string) => {
     const trimmed = inputEmail.trim().toLowerCase();
-    
-    const { data, error } = await (supabase.from("prospectus_sessions") as any)
+    const newSessionId = crypto.randomUUID();
+
+    const { error } = await (supabase.from("prospectus_sessions") as any)
       .insert({
+        id: newSessionId,
         email: trimmed,
         session_start: new Date().toISOString(),
         user_agent: navigator.userAgent,
-      })
-      .select("id")
-      .single();
+      });
 
     if (error) {
       console.error("Failed to start session:", error);
@@ -62,13 +65,13 @@ export function useProspectusGate() {
     }
 
     const session: ProspectusSession = {
-      id: data.id,
+      id: newSessionId,
       email: trimmed,
       startTime: Date.now(),
     };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
     sessionStorage.setItem(EMAIL_KEY, trimmed);
-    setSessionId(data.id);
+    setSessionId(newSessionId);
     setEmail(trimmed);
   }, []);
 
