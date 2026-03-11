@@ -300,7 +300,7 @@ function AppCard({ module, requested, onRequest }: { module: SeeksyModule; reque
   );
 }
 export default function SeeksyAppDirectory() {
-  const [tab, setTab] = useState<"bundles" | "apps">("bundles");
+  const [tab, setTab] = useState<"bundles" | "apps">("apps");
   const { email, sessionId, startSession } = useProspectusGate();
   const [requestedItems, setRequestedItems] = useState<Set<string>>(new Set());
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
@@ -362,16 +362,6 @@ export default function SeeksyAppDirectory() {
         {/* Pill Tabs */}
         <div className="flex gap-2 mb-8">
           <button
-            onClick={() => setTab("bundles")}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-              tab === "bundles"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
-            }`}
-          >
-            Bundles
-          </button>
-          <button
             onClick={() => setTab("apps")}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
               tab === "apps"
@@ -380,6 +370,16 @@ export default function SeeksyAppDirectory() {
             }`}
           >
             Apps
+          </button>
+          <button
+            onClick={() => setTab("bundles")}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
+              tab === "bundles"
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground hover:bg-muted/80"
+            }`}
+          >
+            Bundles
           </button>
         </div>
 
@@ -411,7 +411,7 @@ export default function SeeksyAppDirectory() {
                 Sort: By Category
               </button>
 
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto max-w-full">
                 <button
                   onClick={() => setSelectedCategory("all")}
                   className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
