@@ -411,6 +411,7 @@ export default function SeeksyAppDirectory() {
             }`}
           >
             Platforms
+          </button>
         </div>
 
         {tab === "platforms" ? (
