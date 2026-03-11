@@ -368,7 +368,7 @@ export const SeeksyAIChatWidget = () => {
                 >
                   {message.role === "assistant" && (
                     <SparkIcon 
-                      variant="holiday"
+                      variant="default"
                       size="sm"
                       pose="idle"
                       animated={index === messages.length - 1 && isLoading}
