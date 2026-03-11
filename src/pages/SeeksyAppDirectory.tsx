@@ -334,7 +334,8 @@ export default function SeeksyAppDirectory() {
           session_id: sessionId, 
           page_name: `INFO_REQUEST: ${itemName}`, 
           viewed_at: new Date().toISOString() 
-        });
+        })
+        .then(({ error }: any) => { if (error) console.error("Info request log error:", error); });
     }
   }, [sessionId]);
 
