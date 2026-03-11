@@ -47,10 +47,8 @@ export const SparkIcon = ({
   useEffect(() => {
     preloadSparkAssets();
     
-    // Use holiday variant if variant is "holiday" OR if global holiday mode is enabled
-    const useHoliday = variant === "holiday" || holidaySettings?.holidayMode;
-    
-    setAssetPath(getSparkAsset(pose, "full", undefined, useHoliday));
+    // Always use default (non-holiday) assets
+    setAssetPath(getSparkAsset(pose, "full", undefined, false));
   }, [pose, variant, holidaySettings]);
 
   // Entrance animation on mount (only if animated prop is true)
