@@ -287,7 +287,7 @@ export const SeeksyAIChatWidget = () => {
           }}
         >
           <SparkIcon 
-            variant="holiday"
+            variant="default"
             size={80}
             pose="waving"
             animated
@@ -308,7 +308,7 @@ export const SeeksyAIChatWidget = () => {
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b rounded-t-lg">
         <div className="flex items-center gap-3">
-          <SparkIcon variant="holiday" size="sm" pose="waving" />
+          <SparkIcon variant="default" size="sm" pose="waving" />
           <div>
             <h3 className="font-semibold text-sm">Seeksy Spark</h3>
             <p className="text-xs text-muted-foreground">Your AI Guide ✨</p>
@@ -368,7 +368,7 @@ export const SeeksyAIChatWidget = () => {
                 >
                   {message.role === "assistant" && (
                     <SparkIcon 
-                      variant="holiday"
+                      variant="default"
                       size="sm"
                       pose="idle"
                       animated={index === messages.length - 1 && isLoading}
@@ -391,7 +391,7 @@ export const SeeksyAIChatWidget = () => {
               {isLoading && (
                 <div className="flex gap-3 text-sm items-start">
                   <SparkIcon 
-                    variant="holiday"
+                    variant="default"
                     size="sm"
                     pose="typing"
                     animated
