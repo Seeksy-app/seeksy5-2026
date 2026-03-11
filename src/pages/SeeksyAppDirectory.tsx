@@ -18,9 +18,12 @@ import platformVpa from "@/assets/platform-vpa.png";
 import platformSeeksy from "@/assets/platform-seeksy.jpg";
 import platformSeeksyTv from "@/assets/platform-seeksy-tv.jpg";
 import platformAlchify from "@/assets/platform-alchify.jpg";
+import platformAlchify2 from "@/assets/platform-alchify-2.png";
+import platformAlchify3 from "@/assets/platform-alchify-3.png";
 import platformDtv from "@/assets/platform-digitaltovoter.png";
 import platformYvb from "@/assets/platform-yourvabenefits.png";
 import platformWr360 from "@/assets/platform-workready360.png";
+import platformTl from "@/assets/platform-truckinglane.png";
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
