@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function GlobalSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data: settings } = useQuery({
     queryKey: ['app-settings'],
