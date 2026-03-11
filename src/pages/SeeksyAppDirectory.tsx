@@ -305,6 +305,8 @@ export default function SeeksyAppDirectory() {
   const [requestedItems, setRequestedItems] = useState<Set<string>>(new Set());
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [lastRequestedName, setLastRequestedName] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [sortByCategory, setSortByCategory] = useState(false);
 
   // Track session duration
   useUpdateSessionDuration(sessionId);
@@ -334,6 +336,17 @@ export default function SeeksyAppDirectory() {
         });
     }
   }, [sessionId]);
+
+  const filteredModules = useMemo(() => {
+    let modules = [...SEEKSY_MODULES];
+    if (selectedCategory !== "all") {
+      modules = modules.filter(m => m.category === selectedCategory);
+    }
+    if (sortByCategory) {
+      modules.sort((a, b) => a.category.localeCompare(b.category));
+    }
+    return modules;
+  }, [selectedCategory, sortByCategory]);
 
   if (!email) {
     return <EmailGate onSubmit={startSession} />;
@@ -383,17 +396,64 @@ export default function SeeksyAppDirectory() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {SEEKSY_MODULES.map((module) => (
-              <div key={module.id} onMouseEnter={() => trackCardView(module.name)}>
-                <AppCard 
-                  module={module}
-                  requested={requestedItems.has(module.name)}
-                  onRequest={handleRequestInfo}
-                />
+          <>
+            {/* Sort + Category Filters */}
+            <div className="flex flex-col items-center gap-4 mb-8">
+              <button
+                onClick={() => setSortByCategory(!sortByCategory)}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-colors ${
+                  sortByCategory
+                    ? "bg-primary text-primary-foreground border-primary"
+                    : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                }`}
+              >
+                <ArrowUpDown className="h-4 w-4" />
+                Sort: By Category
+              </button>
+
+              <div className="flex flex-wrap justify-center gap-2">
+                <button
+                  onClick={() => setSelectedCategory("all")}
+                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                    selectedCategory === "all"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                  }`}
+                >
+                  All Apps
+                </button>
+                {MODULE_CATEGORIES.map((cat) => {
+                  const CatIcon = cat.icon;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setSelectedCategory(cat.id)}
+                      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                        selectedCategory === cat.id
+                          ? "bg-primary text-primary-foreground border-primary"
+                          : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                      }`}
+                    >
+                      {CatIcon && <CatIcon className="h-3.5 w-3.5" />}
+                      {cat.name}
+                    </button>
+                  );
+                })}
               </div>
-            ))}
-          </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {filteredModules.map((module) => (
+                <div key={module.id} onMouseEnter={() => trackCardView(module.name)}>
+                  <AppCard 
+                    module={module}
+                    requested={requestedItems.has(module.name)}
+                    onRequest={handleRequestInfo}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </main>
       <FooterSection />
