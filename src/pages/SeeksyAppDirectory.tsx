@@ -411,7 +411,7 @@ export default function SeeksyAppDirectory() {
                 Sort: By Category
               </button>
 
-              <div className="flex flex-wrap justify-center gap-2">
+              <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto max-w-full">
                 <button
                   onClick={() => setSelectedCategory("all")}
                   className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
