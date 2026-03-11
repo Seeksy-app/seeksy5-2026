@@ -36,6 +36,20 @@ serve(async (req) => {
     );
 
     const submission: TicketSubmission = await req.json();
+
+    // Input validation
+    if (!submission.name || typeof submission.name !== 'string' || submission.name.length > 200) {
+      return new Response(JSON.stringify({ error: 'Invalid name (max 200 chars)' }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (!submission.email || typeof submission.email !== 'string' || !/^[^@]+@[^@]+\.[^@]+$/.test(submission.email) || submission.email.length > 255) {
+      return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (!submission.subject || typeof submission.subject !== 'string' || submission.subject.length > 500) {
+      return new Response(JSON.stringify({ error: 'Invalid subject (max 500 chars)' }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+    if (!submission.description || typeof submission.description !== 'string' || submission.description.length > 5000) {
+      return new Response(JSON.stringify({ error: 'Description too long (max 5000 chars)' }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
     
     console.log("Processing ticket submission:", { email: submission.email, subject: submission.subject });
 

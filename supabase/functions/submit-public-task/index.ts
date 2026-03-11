@@ -12,7 +12,28 @@ serve(async (req) => {
   }
 
   try {
-    const { name, email, company, phone, title, description, category, priority } = await req.json();
+    const body = await req.json();
+    const { name, email, company, phone, title, description, category, priority } = body;
+
+    // Input validation
+    if (!name || typeof name !== 'string' || name.length > 200) {
+      return new Response(JSON.stringify({ error: 'Invalid name (max 200 chars)' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    if (!email || typeof email !== 'string' || !/^[^@]+@[^@]+\.[^@]+$/.test(email) || email.length > 255) {
+      return new Response(JSON.stringify({ error: 'Invalid email' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    if (!title || typeof title !== 'string' || title.length > 500) {
+      return new Response(JSON.stringify({ error: 'Invalid title (max 500 chars)' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    if (description && (typeof description !== 'string' || description.length > 5000)) {
+      return new Response(JSON.stringify({ error: 'Description too long (max 5000 chars)' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    if (company && (typeof company !== 'string' || company.length > 200)) {
+      return new Response(JSON.stringify({ error: 'Company name too long' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
+    if (phone && (typeof phone !== 'string' || phone.length > 30)) {
+      return new Response(JSON.stringify({ error: 'Phone too long' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    }
 
     // Create Supabase admin client
     const supabaseAdmin = createClient(

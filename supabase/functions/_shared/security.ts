@@ -1,6 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
 
-const SIGNING_SECRET = Deno.env.get('SIGNING_SECRET') || 'default-dev-secret-change-in-production';
+const SIGNING_SECRET = Deno.env.get('SIGNING_SECRET');
+if (!SIGNING_SECRET) throw new Error('SIGNING_SECRET env var is required');
 const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 10;
 
