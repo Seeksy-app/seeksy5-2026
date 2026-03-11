@@ -216,7 +216,56 @@ export default function ProspectusAccessLog() {
         {/* Table */}
         <Card className="border border-border/60 overflow-hidden">
           <div className="overflow-x-auto">
-            {view === "person" ? (
+            {view === "requests" ? (() => {
+              // Extract info requests from page views
+              const infoRequests = pageViews
+                .filter(pv => pv.page_name.startsWith("INFO_REQUEST:"))
+                .map(pv => {
+                  const session = sessions.find(s => s.id === pv.session_id);
+                  return {
+                    id: pv.id,
+                    email: session?.email || "Unknown",
+                    appName: pv.page_name.replace("INFO_REQUEST: ", ""),
+                    requestedAt: pv.viewed_at,
+                  };
+                })
+                .sort((a, b) => new Date(b.requestedAt).getTime() - new Date(a.requestedAt).getTime());
+
+              return (
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b bg-muted/30">
+                      <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Email</th>
+                      <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">App Requested</th>
+                      <th className="text-left px-4 py-3 text-xs font-semibold text-muted-foreground">Date & Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {infoRequests.map((req) => (
+                      <tr key={req.id} className="border-b hover:bg-muted/20 transition-colors">
+                        <td className="px-4 py-4 text-sm font-medium text-foreground">{req.email}</td>
+                        <td className="px-4 py-4">
+                          <Badge variant="outline" className="text-xs gap-1 py-0.5 text-primary border-primary/30 bg-primary/5">
+                            <MessageSquare className="h-3 w-3" />
+                            {req.appName}
+                          </Badge>
+                        </td>
+                        <td className="px-4 py-4 text-sm text-foreground">
+                          {format(new Date(req.requestedAt), "MMM d, yyyy, h:mm a")}
+                        </td>
+                      </tr>
+                    ))}
+                    {infoRequests.length === 0 && (
+                      <tr>
+                        <td colSpan={3} className="px-4 py-12 text-center text-muted-foreground">
+                          No info requests yet. Visitors can request info on apps in the directory.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              );
+            })() : view === "person" ? (
               <table className="w-full">
                 <thead>
                   <tr className="border-b bg-muted/30">
