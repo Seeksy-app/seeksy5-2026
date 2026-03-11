@@ -1,8 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, CheckCircle2, PlusCircle, Check, ArrowUpDown } from "lucide-react";
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { Users, Eye, CheckCircle2, PlusCircle, Check, ArrowUpDown, ExternalLink } from "lucide-react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { FooterSection } from "@/components/homepage/FooterSection";
 import { SEEKSY_COLLECTIONS, type SeeksyCollection } from "@/components/modules/collectionData";
@@ -13,6 +13,25 @@ import { supabase } from "@/integrations/supabase/client";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
+import platformVpa from "@/assets/platform-vpa.png";
+
+interface PlatformItem {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+  url: string;
+}
+
+const PLATFORMS: PlatformItem[] = [
+  {
+    id: "vpa-2026",
+    name: "Veteran Podcast Awards 2026",
+    description: "Celebrating the impactful voices of veteran podcasters. Live ceremony October 5th, 2026.",
+    image: platformVpa,
+    url: "https://veteran-voice-awards.lovable.app/vpa-deck",
+  },
+];
 
 // Hero images
 import heroStudio from "@/assets/app-hero-studio.jpg";
