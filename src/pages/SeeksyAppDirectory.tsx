@@ -362,16 +362,6 @@ export default function SeeksyAppDirectory() {
         {/* Pill Tabs */}
         <div className="flex gap-2 mb-8">
           <button
-            onClick={() => setTab("bundles")}
-            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
-              tab === "bundles"
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
-            }`}
-          >
-            Bundles
-          </button>
-          <button
             onClick={() => setTab("apps")}
             className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
               tab === "apps"
@@ -380,6 +370,16 @@ export default function SeeksyAppDirectory() {
             }`}
           >
             Apps
+          </button>
+          <button
+            onClick={() => setTab("bundles")}
+            className={`px-5 py-2 rounded-full text-sm font-medium transition-colors ${
+              tab === "bundles"
+                ? "bg-primary text-primary-foreground"
+                : "bg-muted text-muted-foreground hover:bg-muted/80"
+            }`}
+          >
+            Bundles
           </button>
         </div>
 
