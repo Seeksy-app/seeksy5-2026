@@ -287,7 +287,7 @@ export const SeeksyAIChatWidget = () => {
           }}
         >
           <SparkIcon 
-            variant="holiday"
+            variant="default"
             size={80}
             pose="waving"
             animated
