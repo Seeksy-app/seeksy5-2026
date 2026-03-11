@@ -369,6 +369,7 @@ export default function SeeksyAppDirectory() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortByCategory, setSortByCategory] = useState(false);
   const [videoPlatform, setVideoPlatform] = useState<PlatformItem | null>(null);
+  const [infoPlatform, setInfoPlatform] = useState<PlatformItem | null>(null);
 
   // Track session duration
   useUpdateSessionDuration(sessionId);
