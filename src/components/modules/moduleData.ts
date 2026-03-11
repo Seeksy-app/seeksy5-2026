@@ -69,9 +69,9 @@ export const MODULE_CATEGORIES: ModuleCategory[] = [
   { id: "podcasting", name: "Podcasting" },
   { id: "campaigns", name: "Campaigns & Marketing" },
   { id: "events", name: "Events & Meetings" },
-  { id: "crm-business", name: "CRM & Business Tools" },
+  { id: "crm-business", name: "CRM & Bus Tools" },
   { id: "analytics", name: "Analytics" },
-  { id: "identity", name: "Identity & Profile" },
+  { id: "identity", name: "Identity" },
   { id: "ai-tools", name: "AI Tools", isNew: true },
 ];
 

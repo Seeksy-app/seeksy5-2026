@@ -411,10 +411,10 @@ export default function SeeksyAppDirectory() {
                 Sort: By Category
               </button>
 
-              <div className="flex flex-nowrap justify-center gap-2 overflow-x-auto max-w-full">
+              <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full">
                 <button
                   onClick={() => setSelectedCategory("all")}
-                  className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
                     selectedCategory === "all"
                       ? "bg-primary text-primary-foreground border-primary"
                       : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
@@ -426,7 +426,7 @@ export default function SeeksyAppDirectory() {
                     <button
                       key={cat.id}
                       onClick={() => setSelectedCategory(cat.id)}
-                      className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium border transition-colors ${
+                      className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
                         selectedCategory === cat.id
                           ? "bg-primary text-primary-foreground border-primary"
                           : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
