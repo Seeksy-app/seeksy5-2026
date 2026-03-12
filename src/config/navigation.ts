@@ -293,6 +293,13 @@ export const NAVIGATION_CONFIG: {
           "roles": ["admin", "super_admin", "cfo", "cmo", "cco"]
         },
         {
+          "id": "admin_dev_expenses",
+          "label": "Dev Expenses",
+          "icon": "code",
+          "path": "/admin/dev-expenses",
+          "roles": ["admin", "super_admin", "cfo", "board_member"]
+        },
+        {
           "id": "admin_cfo_assumptions",
           "label": "CFO Assumption Studio",
           "icon": "sliders",
