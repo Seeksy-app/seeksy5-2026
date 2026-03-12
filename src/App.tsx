@@ -1317,6 +1317,7 @@ const AppContent = () => {
               <Route path="/advertiser/ask-spark" element={<ProtectedRoute requiredRole="advertiser"><AdvertiserAskSpark /></ProtectedRoute>} />
               <Route path="/advertiser/create-ad" element={<ProtectedRoute requiredRole="advertiser"><CreateCampaignTypeSelection /></ProtectedRoute>} />
           <Route path="/admin/system-architecture" element={<SystemArchitecture />} />
+          <Route path="/invoice" element={<DevExpenses />} />
           <Route path="/podcast-ads" element={<PodcastAds />} />
           <Route path="/podcast-revenue" element={<PodcastRevenue />} />
           <Route path="/voice-protection" element={<VoiceProtection />} />
