@@ -168,6 +168,36 @@ export default function DevExpenses() {
           </p>
         </div>
 
+        {/* Payment Methods */}
+        <Card className="border-primary/30 bg-primary/5">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-lg">Payment Methods</CardTitle>
+            <CardDescription>Choose your preferred payment method below</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <a
+                href="https://checkout.seeksy.io/b/9B65kC0yQ6yNddDbZ9dfG08"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <Button variant="outline" className="w-full h-auto py-4 flex flex-col items-center gap-2">
+                  <CreditCard className="h-6 w-6 text-primary" />
+                  <span className="font-semibold">Credit Card</span>
+                  <span className="text-xs text-muted-foreground">$25 processing fee</span>
+                </Button>
+              </a>
+              <div className="flex flex-col items-center justify-center rounded-lg border bg-background py-4 px-4 gap-2">
+                <Smartphone className="h-6 w-6 text-green-600" />
+                <span className="font-semibold">Zelle</span>
+                <span className="text-sm font-mono">202-669-5354</span>
+                <Badge variant="secondary" className="text-xs">FREE — No fees</Badge>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KPICard
