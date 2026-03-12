@@ -14,8 +14,9 @@ import {
 } from 'recharts';
 import {
   DollarSign, TrendingUp, Clock, Code, Server, Megaphone, Users, Database,
-  ArrowUpRight
+  ArrowUpRight, CreditCard, Smartphone
 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
