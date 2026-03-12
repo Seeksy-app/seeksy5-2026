@@ -189,7 +189,7 @@ export default function DevExpenses() {
                 </Button>
               </a>
               <div className="flex flex-col items-center justify-center rounded-lg border bg-background py-4 px-4 gap-2">
-                <Smartphone className="h-6 w-6 text-green-600" />
+                <Smartphone className="h-6 w-6 text-primary" />
                 <span className="font-semibold">Zelle</span>
                 <span className="text-sm font-mono">202-669-5354</span>
                 <Badge variant="secondary" className="text-xs">FREE — No fees</Badge>
