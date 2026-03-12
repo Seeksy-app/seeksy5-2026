@@ -240,7 +240,7 @@ export function HeroWorkspaceSection() {
               className="text-base mb-5"
               style={{
                 lineHeight: "26px",
-                color: "#667085",
+                color: "rgba(255,255,255,0.7)",
               }}
             >
               Turn tools on as you need them. Pay only for what you use with credits.
