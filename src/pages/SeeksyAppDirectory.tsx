@@ -140,7 +140,7 @@ const PLATFORMS: PlatformItem[] = [
 ];
 
 // Hero images
-import heroBg from "@/assets/app-directory-hero-bg.jpg";
+import heroBg from "@/assets/homepage/hero-workspace.png";
 import heroStudio from "@/assets/app-hero-studio.jpg";
 import heroClips from "@/assets/app-hero-clips.jpg";
 import heroMarketing from "@/assets/app-hero-marketing.jpg";

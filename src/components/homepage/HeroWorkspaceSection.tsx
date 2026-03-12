@@ -4,6 +4,7 @@ import { ArrowRight, Play, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { HeroWorkspaceBuilder } from "./HeroWorkspaceBuilder";
 import { motion, AnimatePresence } from "framer-motion";
+import heroBg from "@/assets/homepage/hero-workspace.png";
 
 interface PersonaContent {
   bullets: string[];
@@ -64,15 +65,21 @@ export function HeroWorkspaceSection() {
 
   return (
     <section
-      className="w-full px-6"
+      className="w-full px-6 relative overflow-hidden"
       style={{
         paddingTop: "clamp(96px, 12vh, 160px)",
         paddingBottom: "80px",
         minHeight: "82vh",
-        background: "linear-gradient(180deg, hsl(var(--muted)/0.25) 0%, hsl(var(--background)) 100%)",
       }}
     >
-      <div className="mx-auto max-w-[1280px]">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+      <div className="mx-auto max-w-[1280px] relative z-10">
         {/* Desktop: Side by side - Decoupled columns */}
         <div
           className="hidden lg:grid items-center"
@@ -100,7 +107,7 @@ export function HeroWorkspaceSection() {
                 fontSize: "72px",
                 lineHeight: 1.02,
                 letterSpacing: "-2.5px",
-                color: "#0B1220",
+                color: "#FFFFFF",
                 maxWidth: "560px",
               }}
             >
@@ -111,7 +118,7 @@ export function HeroWorkspaceSection() {
               style={{
                 fontSize: "20px",
                 lineHeight: 1.55,
-                color: "#667085",
+                color: "rgba(255,255,255,0.7)",
                 maxWidth: "540px",
                 marginTop: "18px",
               }}
@@ -134,7 +141,7 @@ export function HeroWorkspaceSection() {
                 size="lg"
                 variant="outline"
                 className="rounded-full font-medium bg-transparent"
-                style={{ border: "1px solid #E6EAF2", color: "#0B1220", height: "52px", paddingLeft: "24px", paddingRight: "24px", fontSize: "16px" }}
+                style={{ border: "1px solid rgba(255,255,255,0.3)", color: "#FFFFFF", height: "52px", paddingLeft: "24px", paddingRight: "24px", fontSize: "16px" }}
                 onClick={() => navigate("/auth")}
               >
                 <Play className="mr-2 h-4 w-4" />
@@ -142,7 +149,7 @@ export function HeroWorkspaceSection() {
               </Button>
             </div>
 
-            <p className="text-xs" style={{ color: "#6B7280", marginTop: "12px" }}>
+            <p className="text-xs" style={{ color: "rgba(255,255,255,0.5)", marginTop: "12px" }}>
               Start free with 100 credits • No credit card required
             </p>
 
@@ -223,7 +230,7 @@ export function HeroWorkspaceSection() {
               style={{
                 fontSize: "40px",
                 lineHeight: 1.0,
-                color: "#0B1220",
+                color: "#FFFFFF",
               }}
             >
               Build your creator{" "}
@@ -233,7 +240,7 @@ export function HeroWorkspaceSection() {
               className="text-base mb-5"
               style={{
                 lineHeight: "26px",
-                color: "#667085",
+                color: "rgba(255,255,255,0.7)",
               }}
             >
               Turn tools on as you need them. Pay only for what you use with credits.
@@ -252,8 +259,8 @@ export function HeroWorkspaceSection() {
               <Button
                 size="default"
                 variant="outline"
-                className="rounded-full px-4 h-10 text-sm font-medium bg-transparent"
-                style={{ border: "1px solid #E6EAF2" }}
+                className="rounded-full px-4 h-10 text-sm font-medium bg-transparent text-white"
+                style={{ border: "1px solid rgba(255,255,255,0.3)" }}
                 onClick={() => navigate("/auth")}
               >
                 <Play className="mr-2 h-3.5 w-3.5" />
@@ -261,7 +268,7 @@ export function HeroWorkspaceSection() {
               </Button>
             </div>
 
-            <p className="text-xs mb-5" style={{ color: "#6B7280" }}>
+            <p className="text-xs mb-5" style={{ color: "rgba(255,255,255,0.5)" }}>
               Start free with 100 credits • No credit card
             </p>
 
