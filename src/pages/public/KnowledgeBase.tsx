@@ -311,7 +311,7 @@ export default function KnowledgeBase() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4 text-center">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
-            <img src="/seeksy-logo.png" alt="Seeksy" className="h-6 w-auto brightness-200" />
+            <img src="/seeksy-logo-orange.png" alt="Seeksy" className="h-6 w-auto brightness-200" />
           </Link>
           <p className="text-gray-400 text-sm">
             © {new Date().getFullYear()} Seeksy. All rights reserved.

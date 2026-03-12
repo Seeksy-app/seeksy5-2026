@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { User } from "@supabase/supabase-js";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-const seeksyLogo = "/seeksy-logo.png";
+const seeksyLogo = "/seeksy-logo-orange.png";
 import { MasterSearch } from "@/components/MasterSearch";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { CreditBalance } from "@/components/credits/CreditBalance";
