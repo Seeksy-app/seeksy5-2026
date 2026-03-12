@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mail, ArrowRight, Sparkles } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import heroBg from "@/assets/app-directory-hero-bg.jpg";
-import seeksyLogo from "@/assets/seeksy-logo-orange.png";
 
 interface EmailGateProps {
   onSubmit: (email: string) => void;
@@ -37,69 +36,40 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${heroBg})` }}
       />
-      
-      {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/40" />
+      <div className="absolute inset-0 bg-black/30" />
 
-      {/* Floating orbs */}
-      <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full opacity-20"
-        style={{ background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)", top: "10%", right: "-10%" }}
-        animate={{ x: [0, -30, 0], y: [0, 20, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute w-[400px] h-[400px] rounded-full opacity-15"
-        style={{ background: "radial-gradient(circle, #818cf8 0%, transparent 70%)", bottom: "5%", left: "-5%" }}
-        animate={{ x: [0, 20, 0], y: [0, -20, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Card */}
+      {/* Glassmorphic Card */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 mx-auto max-w-[640px] w-full text-center"
+        className="relative z-10 mx-auto max-w-[640px] w-full text-center rounded-3xl px-8 py-14 sm:px-14 sm:py-16"
+        style={{
+          background: "rgba(255, 255, 255, 0.15)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255, 255, 255, 0.25)",
+        }}
       >
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
-        >
-          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.12)" }}>
-            <span className="text-3xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">Seeksy</span>
-          </div>
-        </motion.div>
-
-        {/* Eyebrow badge */}
-        <motion.div
+        {/* Eyebrow */}
+        <motion.p
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="mb-6"
+          className="text-xs font-bold uppercase tracking-[3px] text-blue-400 mb-4"
         >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-[2px] text-amber-300 border border-amber-400/30" style={{ background: "rgba(251,191,36,0.1)" }}>
-            <Sparkles className="h-3.5 w-3.5" />
-            35+ AI-Powered Apps
-          </span>
-        </motion.div>
+          Explore the Platform
+        </motion.p>
 
         {/* Headline */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-white font-black leading-[1.05]"
-          style={{ fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-2px" }}
+          className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-4"
         >
-          The Future of Work,
-          <br />
-          <span className="bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">
-            All in One Place.
-          </span>
+          <span className="text-[#1a1f36]">Seeksy App </span>
+          <span className="text-blue-500">Directory.</span>
         </motion.h1>
 
         {/* Subtitle */}
@@ -107,9 +77,10 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.45 }}
-          className="text-base sm:text-lg leading-relaxed text-white/70 mt-5 max-w-[480px] mx-auto"
+          className="text-sm sm:text-base leading-relaxed text-white/70 max-w-xl mx-auto mb-8"
         >
-          Enterprise-grade AI applications for creators, teams, and businesses — available for licensing, partnership, or acquisition.
+          A suite of 35+ AI-first workplace applications — available for
+          enterprise licensing, partnership, or strategic acquisition.
         </motion.p>
 
         {/* Email form */}
@@ -118,52 +89,41 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="mt-10 max-w-[480px] mx-auto"
+          className="max-w-[480px] mx-auto"
         >
-          <div className="flex flex-col sm:flex-row items-center gap-3 p-2 rounded-2xl" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.15)" }}>
+          <div className="flex flex-col sm:flex-row items-center gap-3">
             <div className="relative flex-1 w-full">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-white/40" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-slate-400" />
               <Input
                 type="email"
-                placeholder="your@email.com"
+                placeholder="you@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="pl-11 h-[52px] text-base rounded-xl border-0 bg-white/10 text-white placeholder:text-white/40 focus:ring-2 focus:ring-amber-400/40 focus:bg-white/15 transition-all"
+                className="pl-11 h-[52px] text-base rounded-xl border border-white/30 bg-white text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400/40 transition-all"
                 required
                 autoFocus
               />
             </div>
             <Button
               type="submit"
-              className="rounded-xl font-bold w-full sm:w-auto whitespace-nowrap text-white shadow-lg hover:shadow-xl transition-all h-[52px] px-8 text-sm bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 border-0"
+              className="rounded-xl font-bold w-full sm:w-auto whitespace-nowrap text-white shadow-lg hover:shadow-xl transition-all h-[52px] px-8 text-sm bg-blue-400 hover:bg-blue-500 border-0"
               disabled={loading || !email.includes("@")}
             >
-              {loading ? "Loading..." : "Explore Apps"}
+              {loading ? "Loading..." : "VIEW APPS"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
         </motion.form>
 
-        {/* Trust signals */}
-        <motion.div
+        {/* Trust line */}
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.75 }}
-          className="mt-6 flex items-center justify-center gap-6 text-xs text-white/40"
+          className="mt-5 text-xs text-white/50"
         >
-          <span className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            No signup required
-          </span>
-          <span className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Instant access
-          </span>
-          <span className="flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            Enterprise ready
-          </span>
-        </motion.div>
+          No signup required · We just want to know who's interested.
+        </motion.p>
       </motion.div>
     </section>
   );
