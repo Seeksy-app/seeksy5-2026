@@ -153,6 +153,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Veteran Podcast Awards 2026",
     description: "Celebrating the impactful voices of veteran podcasters. Live ceremony October 5th, 2026.",
     image: platformVpa,
+    category: "events",
     url: "https://veteran-voice-awards.lovable.app/vpa-deck",
   },
 ];
