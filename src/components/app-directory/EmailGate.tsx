@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Mail, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
-import heroBg from "@/assets/homepage/hero-workspace.png";
+
 
 interface EmailGateProps {
   onSubmit: (email: string) => void;
@@ -15,7 +15,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
 
   useEffect(() => {
     const img = new Image();
-    img.src = heroBg;
+    img.src = "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80";
     const signal = () => window.dispatchEvent(new CustomEvent("seeksy:hero-ready"));
     if (img.complete) signal();
     else { img.onload = signal; img.onerror = signal; }
@@ -34,7 +34,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBg})` }}
+        style={{ backgroundImage: `url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80)` }}
       />
       <div className="absolute inset-0 bg-black/50" />
 
