@@ -100,7 +100,7 @@ export function HeroWorkspaceSection() {
                 fontSize: "72px",
                 lineHeight: 1.02,
                 letterSpacing: "-2.5px",
-                color: "#FFFFFF",
+                color: "#0B1220",
                 maxWidth: "560px",
               }}
             >
