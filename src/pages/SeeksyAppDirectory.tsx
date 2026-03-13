@@ -763,7 +763,7 @@ export default function SeeksyAppDirectory() {
                 <SortableContext items={filteredPlatforms.map(p => p.id)} strategy={verticalListSortingStrategy}>
                   <div className="space-y-2 max-w-2xl mx-auto">
                     {filteredPlatforms.map((platform) => (
-                      <SortablePlatformRow key={platform.id} platform={platform} />
+                      <SortablePlatformRow key={platform.id} platform={platform} onCategoryChange={handlePlatformCategoryChange} />
                     ))}
                   </div>
                 </SortableContext>
