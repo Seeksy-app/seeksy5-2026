@@ -119,6 +119,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "WorkReady360",
     description: "Stop dreading Monday. AI-powered career exploration, O*NET assessments, and personalized insights to help you find work you actually love.",
     image: platformWr360,
+    category: "career",
     infoPopup: {
       tagline: "You deserve a career that makes you want to get out of bed. We'll help you find purpose, reignite motivation, and build a work life powered by passion — through AI-powered insights.",
       highlights: [
