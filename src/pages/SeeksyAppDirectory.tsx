@@ -479,6 +479,7 @@ function RotatingPlatformImage({ images, alt }: { images: string[]; alt: string 
 export default function SeeksyAppDirectory() {
   const [tab, setTab] = useState<"bundles" | "apps" | "platforms">("apps");
   const { email, sessionId, startSession } = useProspectusGate();
+  const [authReady, setAuthReady] = useState(false);
   const [requestedItems, setRequestedItems] = useState<Set<string>>(new Set());
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [lastRequestedName, setLastRequestedName] = useState("");
@@ -487,6 +488,18 @@ export default function SeeksyAppDirectory() {
   const [videoPlatform, setVideoPlatform] = useState<PlatformItem | null>(null);
   const [infoPlatform, setInfoPlatform] = useState<PlatformItem | null>(null);
   const [selectedPlatformCategory, setSelectedPlatformCategory] = useState<string>("all");
+
+  // Wait for Supabase auth to settle before rendering
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'INITIAL_SESSION' || event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
+        setAuthReady(true);
+      }
+    });
+    // Fallback in case the event already fired
+    supabase.auth.getSession().then(() => setAuthReady(true));
+    return () => subscription.unsubscribe();
+  }, []);
 
   // Track session duration
   useUpdateSessionDuration(sessionId);
@@ -534,6 +547,9 @@ export default function SeeksyAppDirectory() {
     if (selectedPlatformCategory === "all") return PLATFORMS;
     return PLATFORMS.filter(p => p.category === selectedPlatformCategory);
   }, [selectedPlatformCategory]);
+
+  // Wait for auth to settle before rendering to prevent double-mount
+  if (!authReady) return null;
 
   // Email gate — require email before viewing directory
   if (!email) {
