@@ -13,7 +13,7 @@ const pageVariants = {
     y: 0,
   },
   exit: { 
-    opacity: 0.85,
+    opacity: 0,
     y: -4,
   },
 };
