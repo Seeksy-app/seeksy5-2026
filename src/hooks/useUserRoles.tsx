@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { UserRole } from '@/config/navigation';
 import { attemptBootRecovery, isAuthError, shouldAttemptRecovery } from '@/utils/bootRecovery';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface UseUserRolesReturn {
   roles: UserRole[];
@@ -27,22 +28,19 @@ interface UseUserRolesReturn {
 }
 
 export function useUserRoles(): UseUserRolesReturn {
-  const { data: roles = [], isLoading, error } = useQuery({
-    queryKey: ['userRoles'],
-    queryFn: async () => {
-      try {
-        const { data: { user }, error: authError } = await supabase.auth.getUser();
-        
-        if (authError) {
-          console.error('[useUserRoles] Auth error:', authError);
-          if (isAuthError(authError) && shouldAttemptRecovery()) {
-            attemptBootRecovery();
-          }
-          return [];
-        }
-        
-        if (!user) return [];
+  const { status, user } = useAuth();
 
+  const {
+    data: roles = [],
+    isLoading: isRolesLoading,
+    error,
+  } = useQuery({
+    queryKey: ['userRoles', user?.id],
+    enabled: status === 'authenticated' && !!user,
+    queryFn: async () => {
+      if (!user) return [];
+
+      try {
         const { data, error: rolesError } = await supabase
           .from('user_roles')
           .select('role')
@@ -55,15 +53,15 @@ export function useUserRoles(): UseUserRolesReturn {
           }
           return [];
         }
-        
+
         // Map database roles to UserRole type and include super_admin as admin
         const userRoles = data.map(r => r.role as UserRole);
-        
+
         // If user has super_admin, also include admin for convenience
         if (userRoles.includes('super_admin' as UserRole)) {
           userRoles.push('admin');
         }
-        
+
         return userRoles;
       } catch (err) {
         console.error('[useUserRoles] Unexpected error:', err);
@@ -76,6 +74,8 @@ export function useUserRoles(): UseUserRolesReturn {
     retry: 1,
     retryDelay: 1000,
   });
+
+  const isLoading = status === 'loading' || (status === 'authenticated' && isRolesLoading);
 
   const hasRole = (role: UserRole): boolean => {
     return roles.includes(role);
