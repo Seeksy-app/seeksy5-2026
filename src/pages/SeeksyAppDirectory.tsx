@@ -525,9 +525,7 @@ export default function SeeksyAppDirectory() {
     return PLATFORMS.filter(p => p.category === selectedPlatformCategory);
   }, [selectedPlatformCategory]);
 
-  if (!email) {
-    return <EmailGate onSubmit={startSession} />;
-  }
+  // Email gate removed — directory is now open access
 
   return (
     <div className="min-h-screen bg-background">
