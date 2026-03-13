@@ -664,6 +664,7 @@ export default function SeeksyAppDirectory() {
               );
             })}
           </div>
+          </>
         ) : tab === "bundles" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {SEEKSY_COLLECTIONS.map((collection) => (
