@@ -675,81 +675,106 @@ export default function SeeksyAppDirectory() {
 
         {tab === "platforms" ? (
           <>
-            {/* Platform Category Filters */}
-            <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full mb-8">
-              {PLATFORM_CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedPlatformCategory(cat.id)}
-                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
-                    selectedPlatformCategory === cat.id
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
-                  }`}
+            {/* Platform Category Filters + Admin Reorder Toggle */}
+            <div className="flex flex-col items-center gap-3 mb-8">
+              {isAdmin && (
+                <Button
+                  variant={isReorderMode ? "default" : "outline"}
+                  size="sm"
+                  className="gap-2 rounded-full"
+                  onClick={() => setIsReorderMode(!isReorderMode)}
                 >
-                  {cat.name}
-                </button>
-              ))}
+                  <GripVertical className="h-4 w-4" />
+                  {isReorderMode ? "Done Reordering" : "Reorder Platforms"}
+                </Button>
+              )}
+              <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full">
+                {PLATFORM_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedPlatformCategory(cat.id)}
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                      selectedPlatformCategory === cat.id
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPlatforms.map((platform) => {
-              const isVideo = !!platform.videoUrl;
-              const isInfo = !!platform.infoPopup;
-              const isLink = !!platform.url;
-              const Wrapper = (isVideo || isInfo) ? 'button' : 'a';
-              const wrapperProps = isVideo
-                ? { onClick: () => { setVideoPlatform(platform); trackCardView(platform.name); } }
-                : isInfo
-                ? { onClick: () => { setInfoPlatform(platform); trackCardView(platform.name); } }
-                : { href: platform.url, target: "_blank", rel: "noopener noreferrer" };
 
-              return (
-                <Wrapper
-                  key={platform.id}
-                  {...(wrapperProps as any)}
-                  className="group block text-left"
-                  onMouseEnter={() => trackCardView(platform.name)}
-                >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow border border-border/60 h-full">
-                    <div className="relative h-52 overflow-hidden">
-                      {platform.images && platform.images.length > 1 ? (
-                        <RotatingPlatformImage images={platform.images} alt={platform.name} />
-                      ) : (
-                        <img src={platform.image} alt={platform.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" />
-                      )}
-                      {isVideo && (
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
-                            <Play className="h-6 w-6 text-primary-foreground fill-primary-foreground" />
-                          </div>
+            {isReorderMode && isAdmin ? (
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handlePlatformDragEnd}>
+                <SortableContext items={filteredPlatforms.map(p => p.id)} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2 max-w-2xl mx-auto">
+                    {filteredPlatforms.map((platform) => (
+                      <SortablePlatformRow key={platform.id} platform={platform} />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredPlatforms.map((platform) => {
+                  const isVideo = !!platform.videoUrl;
+                  const isInfo = !!platform.infoPopup;
+                  const isLink = !!platform.url;
+                  const Wrapper = (isVideo || isInfo) ? 'button' : 'a';
+                  const wrapperProps = isVideo
+                    ? { onClick: () => { setVideoPlatform(platform); trackCardView(platform.name); } }
+                    : isInfo
+                    ? { onClick: () => { setInfoPlatform(platform); trackCardView(platform.name); } }
+                    : { href: platform.url, target: "_blank", rel: "noopener noreferrer" };
+
+                  return (
+                    <Wrapper
+                      key={platform.id}
+                      {...(wrapperProps as any)}
+                      className="group block text-left"
+                      onMouseEnter={() => trackCardView(platform.name)}
+                    >
+                      <Card className="overflow-hidden hover:shadow-lg transition-shadow border border-border/60 h-full">
+                        <div className="relative h-52 overflow-hidden">
+                          {platform.images && platform.images.length > 1 ? (
+                            <RotatingPlatformImage images={platform.images} alt={platform.name} />
+                          ) : (
+                            <img src={platform.image} alt={platform.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" />
+                          )}
+                          {isVideo && (
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
+                                <Play className="h-6 w-6 text-primary-foreground fill-primary-foreground" />
+                              </div>
+                            </div>
+                          )}
+                          {/* Notify Me button on ALL platform cards */}
+                          <RequestInfoButton
+                            itemName={platform.name}
+                            requested={requestedItems.has(platform.name)}
+                            onRequest={handleRequestInfo}
+                          />
                         </div>
-                      )}
-                      {isInfo && (
-                        <div className="absolute bottom-3 right-3 z-10">
-                          <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-md group-hover:bg-primary group-hover:text-primary-foreground transition-colors text-muted-foreground">
-                            <PlusCircle className="h-4 w-4" />
+                        <CardContent className="p-5 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-bold text-foreground">{platform.name}</h3>
+                            {isVideo ? (
+                              <Play className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            ) : isInfo ? (
+                              <PlusCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            ) : (
+                              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            )}
                           </div>
-                        </div>
-                      )}
-                    </div>
-                    <CardContent className="p-5 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-foreground">{platform.name}</h3>
-                        {isVideo ? (
-                          <Play className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        ) : isInfo ? (
-                          <PlusCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        ) : (
-                          <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        )}
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{platform.description}</p>
-                    </CardContent>
-                  </Card>
-                </Wrapper>
-              );
-            })}
-          </div>
+                          <p className="text-sm text-muted-foreground leading-relaxed">{platform.description}</p>
+                        </CardContent>
+                      </Card>
+                    </Wrapper>
+                  );
+                })}
+              </div>
+            )}
           </>
         ) : tab === "bundles" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
