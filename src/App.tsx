@@ -24,7 +24,7 @@ import Index from "./pages/Index";
 import WorkspacePage from "./pages/Workspace";
 import LogoAsset from "./pages/LogoAsset";
 import SeeksyAppDirectory from "./pages/SeeksyAppDirectory";
-import AppDirectoryAccess from "./pages/AppDirectoryAccess";
+
 import SeeksyBundleDetail from "./pages/SeeksyBundleDetail";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
