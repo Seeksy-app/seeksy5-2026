@@ -166,7 +166,8 @@ function WorkspaceLayoutInner({
     '/platform',
     '/yourbenefits-platform',
     '/yourbenefits',
-  ].some(route => location.pathname === route || location.pathname.startsWith('/public') || location.pathname.startsWith('/videos') || location.pathname.startsWith('/blog') || location.pathname.startsWith('/yourbenefits'));
+    '/app-directory',
+  ].some(route => location.pathname === route || location.pathname.startsWith('/public') || location.pathname.startsWith('/videos') || location.pathname.startsWith('/blog') || location.pathname.startsWith('/yourbenefits') || location.pathname.startsWith('/app-directory'));
 
   // Onboarding route should render children ONLY - no nav, no sidebar
   const isOnboardingRoute = location.pathname.startsWith('/onboarding');
