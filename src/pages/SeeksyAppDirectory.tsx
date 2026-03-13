@@ -136,6 +136,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Government Affairs",
     description: "The Intelligence Engine for Government Affairs. A complete political intelligence platform for lobbying firms — map access, research staffers, track legislation, and execute strategy.",
     image: platformGovAffairs,
+    category: "industry",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/GovernmentAffairs.mp4`,
     url: "https://governmentaffairs.co",
   },
