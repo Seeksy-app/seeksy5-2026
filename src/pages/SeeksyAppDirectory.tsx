@@ -552,25 +552,25 @@ export default function SeeksyAppDirectory() {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
-  // Load saved platform order from app_settings
+  // Load saved platform order and category overrides from app_settings
   useEffect(() => {
-    supabase
-      .from('app_settings')
-      .select('value')
-      .eq('key', 'platform_order')
-      .maybeSingle()
-      .then(({ data }) => {
-        if (data?.value && Array.isArray(data.value)) {
-          // Merge: saved order first, then any new platforms not in saved order
-          const savedOrder = data.value as string[];
-          const allIds = PLATFORMS.map(p => p.id);
-          const merged = [
-            ...savedOrder.filter(id => allIds.includes(id)),
-            ...allIds.filter(id => !savedOrder.includes(id)),
-          ];
-          setPlatformOrder(merged);
-        }
-      });
+    Promise.all([
+      supabase.from('app_settings').select('value').eq('key', 'platform_order').maybeSingle(),
+      supabase.from('app_settings').select('value').eq('key', 'platform_categories').maybeSingle(),
+    ]).then(([orderResult, catResult]) => {
+      if (orderResult.data?.value && Array.isArray(orderResult.data.value)) {
+        const savedOrder = orderResult.data.value as string[];
+        const allIds = PLATFORMS.map(p => p.id);
+        const merged = [
+          ...savedOrder.filter(id => allIds.includes(id)),
+          ...allIds.filter(id => !savedOrder.includes(id)),
+        ];
+        setPlatformOrder(merged);
+      }
+      if (catResult.data?.value && typeof catResult.data.value === 'object' && !Array.isArray(catResult.data.value)) {
+        setPlatformCategoryOverrides(catResult.data.value as Record<string, string>);
+      }
+    });
   }, []);
 
   const savePlatformOrder = useCallback(async (order: string[]) => {
