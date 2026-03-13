@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Eye, CheckCircle2, PlusCircle, Check, ArrowUpDown, ExternalLink, Sparkles } from "lucide-react";
+import { Users, Eye, CheckCircle2, PlusCircle, Check, ArrowUpDown, ExternalLink, Sparkles, GripVertical, Bell } from "lucide-react";
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppDirectoryFooter } from "@/components/footer/AppDirectoryFooter";
@@ -14,6 +14,24 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
+import { useUserRoles } from "@/hooks/useUserRoles";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import platformVpa from "@/assets/platform-vpa.png";
 import platformSeeksy from "@/assets/platform-seeksy.jpg";
 import platformSeeksyTv from "@/assets/platform-seeksy-tv.jpg";
@@ -475,6 +493,31 @@ function RotatingPlatformImage({ images, alt }: { images: string[]; alt: string 
     </AnimatePresence>
   );
 }
+function SortablePlatformRow({ platform }: { platform: PlatformItem }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: platform.id });
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  return (
+    <div ref={setNodeRef} style={style} {...attributes}>
+      <Card className="p-4 hover:border-primary/50 transition-colors">
+        <div className="flex items-center gap-3">
+          <button {...listeners} className="cursor-grab active:cursor-grabbing touch-none" aria-label="Drag to reorder">
+            <GripVertical className="h-5 w-5 text-muted-foreground" />
+          </button>
+          <img src={platform.image} alt={platform.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-foreground text-sm truncate">{platform.name}</h4>
+            <p className="text-xs text-muted-foreground truncate">{platform.category}</p>
+          </div>
+        </div>
+      </Card>
+    </div>
+  );
+}
 
 export default function SeeksyAppDirectory() {
   const [tab, setTab] = useState<"bundles" | "apps" | "platforms">("apps");
@@ -488,6 +531,55 @@ export default function SeeksyAppDirectory() {
   const [videoPlatform, setVideoPlatform] = useState<PlatformItem | null>(null);
   const [infoPlatform, setInfoPlatform] = useState<PlatformItem | null>(null);
   const [selectedPlatformCategory, setSelectedPlatformCategory] = useState<string>("all");
+  const { isAdmin } = useUserRoles();
+  const [platformOrder, setPlatformOrder] = useState<string[]>(PLATFORMS.map(p => p.id));
+  const [isReorderMode, setIsReorderMode] = useState(false);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  // Load saved platform order from app_settings
+  useEffect(() => {
+    supabase
+      .from('app_settings')
+      .select('value')
+      .eq('key', 'platform_order')
+      .maybeSingle()
+      .then(({ data }) => {
+        if (data?.value && Array.isArray(data.value)) {
+          // Merge: saved order first, then any new platforms not in saved order
+          const savedOrder = data.value as string[];
+          const allIds = PLATFORMS.map(p => p.id);
+          const merged = [
+            ...savedOrder.filter(id => allIds.includes(id)),
+            ...allIds.filter(id => !savedOrder.includes(id)),
+          ];
+          setPlatformOrder(merged);
+        }
+      });
+  }, []);
+
+  const savePlatformOrder = useCallback(async (order: string[]) => {
+    const { error } = await supabase
+      .from('app_settings')
+      .upsert({ key: 'platform_order', value: order as any }, { onConflict: 'key' });
+    if (error) console.error('Failed to save platform order:', error);
+  }, []);
+
+  const handlePlatformDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setPlatformOrder(prev => {
+        const oldIndex = prev.indexOf(active.id as string);
+        const newIndex = prev.indexOf(over.id as string);
+        const newOrder = arrayMove(prev, oldIndex, newIndex);
+        savePlatformOrder(newOrder);
+        return newOrder;
+      });
+    }
+  }, [savePlatformOrder]);
 
   // Wait for Supabase auth to settle before rendering
   useEffect(() => {
@@ -543,10 +635,16 @@ export default function SeeksyAppDirectory() {
     return modules;
   }, [selectedCategory, sortByCategory]);
 
+  const orderedPlatforms = useMemo(() => {
+    return platformOrder
+      .map(id => PLATFORMS.find(p => p.id === id))
+      .filter((p): p is PlatformItem => !!p);
+  }, [platformOrder]);
+
   const filteredPlatforms = useMemo(() => {
-    if (selectedPlatformCategory === "all") return PLATFORMS;
-    return PLATFORMS.filter(p => p.category === selectedPlatformCategory);
-  }, [selectedPlatformCategory]);
+    if (selectedPlatformCategory === "all") return orderedPlatforms;
+    return orderedPlatforms.filter(p => p.category === selectedPlatformCategory);
+  }, [selectedPlatformCategory, orderedPlatforms]);
 
   // Wait for auth to settle before rendering to prevent double-mount
   if (!authReady) return null;
@@ -602,81 +700,106 @@ export default function SeeksyAppDirectory() {
 
         {tab === "platforms" ? (
           <>
-            {/* Platform Category Filters */}
-            <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full mb-8">
-              {PLATFORM_CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedPlatformCategory(cat.id)}
-                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
-                    selectedPlatformCategory === cat.id
-                      ? "bg-primary text-primary-foreground border-primary"
-                      : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
-                  }`}
+            {/* Platform Category Filters + Admin Reorder Toggle */}
+            <div className="flex flex-col items-center gap-3 mb-8">
+              {isAdmin && (
+                <Button
+                  variant={isReorderMode ? "default" : "outline"}
+                  size="sm"
+                  className="gap-2 rounded-full"
+                  onClick={() => setIsReorderMode(!isReorderMode)}
                 >
-                  {cat.name}
-                </button>
-              ))}
+                  <GripVertical className="h-4 w-4" />
+                  {isReorderMode ? "Done Reordering" : "Reorder Platforms"}
+                </Button>
+              )}
+              <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full">
+                {PLATFORM_CATEGORIES.map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedPlatformCategory(cat.id)}
+                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                      selectedPlatformCategory === cat.id
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                    }`}
+                  >
+                    {cat.name}
+                  </button>
+                ))}
+              </div>
             </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredPlatforms.map((platform) => {
-              const isVideo = !!platform.videoUrl;
-              const isInfo = !!platform.infoPopup;
-              const isLink = !!platform.url;
-              const Wrapper = (isVideo || isInfo) ? 'button' : 'a';
-              const wrapperProps = isVideo
-                ? { onClick: () => { setVideoPlatform(platform); trackCardView(platform.name); } }
-                : isInfo
-                ? { onClick: () => { setInfoPlatform(platform); trackCardView(platform.name); } }
-                : { href: platform.url, target: "_blank", rel: "noopener noreferrer" };
 
-              return (
-                <Wrapper
-                  key={platform.id}
-                  {...(wrapperProps as any)}
-                  className="group block text-left"
-                  onMouseEnter={() => trackCardView(platform.name)}
-                >
-                  <Card className="overflow-hidden hover:shadow-lg transition-shadow border border-border/60 h-full">
-                    <div className="relative h-52 overflow-hidden">
-                      {platform.images && platform.images.length > 1 ? (
-                        <RotatingPlatformImage images={platform.images} alt={platform.name} />
-                      ) : (
-                        <img src={platform.image} alt={platform.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" />
-                      )}
-                      {isVideo && (
-                        <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
-                            <Play className="h-6 w-6 text-primary-foreground fill-primary-foreground" />
-                          </div>
+            {isReorderMode && isAdmin ? (
+              <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handlePlatformDragEnd}>
+                <SortableContext items={filteredPlatforms.map(p => p.id)} strategy={verticalListSortingStrategy}>
+                  <div className="space-y-2 max-w-2xl mx-auto">
+                    {filteredPlatforms.map((platform) => (
+                      <SortablePlatformRow key={platform.id} platform={platform} />
+                    ))}
+                  </div>
+                </SortableContext>
+              </DndContext>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredPlatforms.map((platform) => {
+                  const isVideo = !!platform.videoUrl;
+                  const isInfo = !!platform.infoPopup;
+                  const isLink = !!platform.url;
+                  const Wrapper = (isVideo || isInfo) ? 'button' : 'a';
+                  const wrapperProps = isVideo
+                    ? { onClick: () => { setVideoPlatform(platform); trackCardView(platform.name); } }
+                    : isInfo
+                    ? { onClick: () => { setInfoPlatform(platform); trackCardView(platform.name); } }
+                    : { href: platform.url, target: "_blank", rel: "noopener noreferrer" };
+
+                  return (
+                    <Wrapper
+                      key={platform.id}
+                      {...(wrapperProps as any)}
+                      className="group block text-left"
+                      onMouseEnter={() => trackCardView(platform.name)}
+                    >
+                      <Card className="overflow-hidden hover:shadow-lg transition-shadow border border-border/60 h-full">
+                        <div className="relative h-52 overflow-hidden">
+                          {platform.images && platform.images.length > 1 ? (
+                            <RotatingPlatformImage images={platform.images} alt={platform.name} />
+                          ) : (
+                            <img src={platform.image} alt={platform.name} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" />
+                          )}
+                          {isVideo && (
+                            <div className="absolute inset-0 bg-black/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                              <div className="w-14 h-14 rounded-full bg-primary/90 flex items-center justify-center">
+                                <Play className="h-6 w-6 text-primary-foreground fill-primary-foreground" />
+                              </div>
+                            </div>
+                          )}
+                          {/* Notify Me button on ALL platform cards */}
+                          <RequestInfoButton
+                            itemName={platform.name}
+                            requested={requestedItems.has(platform.name)}
+                            onRequest={handleRequestInfo}
+                          />
                         </div>
-                      )}
-                      {isInfo && (
-                        <div className="absolute bottom-3 right-3 z-10">
-                          <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-md group-hover:bg-primary group-hover:text-primary-foreground transition-colors text-muted-foreground">
-                            <PlusCircle className="h-4 w-4" />
+                        <CardContent className="p-5 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-bold text-foreground">{platform.name}</h3>
+                            {isVideo ? (
+                              <Play className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            ) : isInfo ? (
+                              <PlusCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            ) : (
+                              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                            )}
                           </div>
-                        </div>
-                      )}
-                    </div>
-                    <CardContent className="p-5 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-bold text-foreground">{platform.name}</h3>
-                        {isVideo ? (
-                          <Play className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        ) : isInfo ? (
-                          <PlusCircle className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        ) : (
-                          <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        )}
-                      </div>
-                      <p className="text-sm text-muted-foreground leading-relaxed">{platform.description}</p>
-                    </CardContent>
-                  </Card>
-                </Wrapper>
-              );
-            })}
-          </div>
+                          <p className="text-sm text-muted-foreground leading-relaxed">{platform.description}</p>
+                        </CardContent>
+                      </Card>
+                    </Wrapper>
+                  );
+                })}
+              </div>
+            )}
           </>
         ) : tab === "bundles" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
