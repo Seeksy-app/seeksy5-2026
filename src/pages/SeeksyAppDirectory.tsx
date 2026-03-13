@@ -19,6 +19,7 @@ import platformSeeksy from "@/assets/platform-seeksy.jpg";
 import platformSeeksyTv from "@/assets/platform-seeksy-tv.jpg";
 import platformAlchify from "@/assets/platform-alchify.jpg";
 import platformAlchify2 from "@/assets/platform-alchify-2.png";
+import platformEmpowerify from "@/assets/platform-empowerify.png";
 import platformAlchify3 from "@/assets/platform-alchify-3.png";
 import platformDtv from "@/assets/platform-digitaltovoter.png";
 import platformYvb from "@/assets/platform-yourvabenefits.png";
@@ -49,6 +50,7 @@ const PLATFORM_CATEGORIES = [
   { id: "all", name: "All Platforms" },
   { id: "media", name: "Media & Creative" },
   { id: "industry", name: "Industry Solutions" },
+  { id: "medical", name: "Medical" },
   { id: "civic", name: "Civic & Advocacy" },
   { id: "career", name: "Career & Workforce" },
   { id: "events", name: "Events & Awards" },
@@ -155,6 +157,14 @@ const PLATFORMS: PlatformItem[] = [
     image: platformVpa,
     category: "events",
     url: "https://veteran-voice-awards.lovable.app/vpa-deck",
+  },
+  {
+    id: "empowerify",
+    name: "Empowerify.io",
+    description: "AI-powered local SEO for healthcare providers. Get found on ChatGPT, Perplexity, Google, and 47+ directories — automatically.",
+    image: platformEmpowerify,
+    category: "medical",
+    url: "https://empowerify.io",
   },
 ];
 
