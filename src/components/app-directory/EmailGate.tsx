@@ -34,7 +34,7 @@ export function EmailGate({ onSubmit }: EmailGateProps) {
       {/* Background */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80)` }}
+        style={{ backgroundImage: `url(https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1600&q=80)` }}
       />
       <div className="absolute inset-0 bg-black/50" />
 
