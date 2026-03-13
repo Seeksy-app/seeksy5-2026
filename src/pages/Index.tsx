@@ -84,7 +84,7 @@ const Index = () => {
 
   // Anonymous users see the marketing homepage
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background" style={{ isolation: 'isolate' }}>
       <TopNavigation />
       <main>
         {/* 1. Hero - Workspace Builder (Image 1 style) */}

@@ -535,13 +535,9 @@ export default function SeeksyAppDirectory() {
         <div className="absolute inset-0 bg-black/20" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-4">
-          {/* Top bar: logo + email */}
-          <div className="absolute top-4 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8 flex items-center justify-between">
+          {/* Top bar: logo */}
+          <div className="absolute top-4 left-4 sm:left-6 lg:left-8">
             <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">Seeksy</span>
-            <div className="flex items-center gap-2 text-xs text-white/50">
-              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Viewing as <span className="text-white/70 font-medium">{email}</span></span>
-            </div>
           </div>
 
           {/* Tabs at bottom of banner */}

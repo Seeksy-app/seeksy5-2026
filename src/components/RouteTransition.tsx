@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 // Subtle transition - no opacity flash on initial render
 const pageVariants = {
   initial: { 
-    opacity: 0.85,
-    y: 4,
+    opacity: 1,
+    y: 0,
   },
   animate: { 
     opacity: 1,
