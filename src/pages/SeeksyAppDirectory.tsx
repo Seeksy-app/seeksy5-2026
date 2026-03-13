@@ -531,43 +531,23 @@ export default function SeeksyAppDirectory() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Premium Hero Header with Workplace Background */}
-      <div className="relative overflow-hidden">
-        {/* Background image */}
+      {/* Hero Banner - Image Only */}
+      <div className="relative overflow-hidden h-64 sm:h-72">
         <img src={heroBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-black/20" />
         
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-10">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-4">
           {/* Top bar: logo + email */}
-          <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-3">
-              <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">Seeksy</span>
-            </div>
+          <div className="absolute top-4 left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-8 flex items-center justify-between">
+            <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-amber-400 via-orange-400 to-rose-400 bg-clip-text text-transparent">Seeksy</span>
             <div className="flex items-center gap-2 text-xs text-white/50">
               <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Viewing as <span className="text-white/70 font-medium">{email}</span></span>
             </div>
           </div>
 
-          {/* Hero content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-3xl mx-auto text-center"
-          >
-            <p className="text-xs font-bold uppercase tracking-[3px] text-blue-400 mb-4">Explore the Platform</p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight mb-4">
-              <span className="text-[#1a1f36]">Seeksy App </span>
-              <span className="text-blue-500">Directory.</span>
-            </h1>
-            <p className="text-white/70 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-              A suite of 35+ AI-first workplace applications — available for enterprise licensing, partnership, or strategic acquisition.
-            </p>
-          </motion.div>
-
-          {/* Tabs inside hero */}
-          <div className="flex gap-1.5 mt-8">
+          {/* Tabs at bottom of banner */}
+          <div className="flex gap-1.5">
             {(["apps", "bundles", "platforms"] as const).map((t) => (
               <button
                 key={t}
