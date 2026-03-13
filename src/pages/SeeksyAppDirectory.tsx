@@ -111,6 +111,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "YourVABenefits",
     description: "Free calculators, AI-powered claim guidance, and connections to accredited representatives. Get the VA benefits you've earned.",
     image: platformYvb,
+    category: "civic",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/YourBenefits.mp4`,
   },
   {
