@@ -49,6 +49,7 @@ const PLATFORM_CATEGORIES = [
   { id: "all", name: "All Platforms" },
   { id: "media", name: "Media & Creative" },
   { id: "industry", name: "Industry Solutions" },
+  { id: "medical", name: "Medical" },
   { id: "civic", name: "Civic & Advocacy" },
   { id: "career", name: "Career & Workforce" },
   { id: "events", name: "Events & Awards" },
