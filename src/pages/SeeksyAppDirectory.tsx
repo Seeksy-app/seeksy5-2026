@@ -38,11 +38,21 @@ interface PlatformItem {
   images?: string[];
   url?: string;
   videoUrl?: string;
+  category: string;
   infoPopup?: {
     tagline: string;
     highlights: string[];
   };
 }
+
+const PLATFORM_CATEGORIES = [
+  { id: "all", name: "All Platforms" },
+  { id: "media", name: "Media & Creative" },
+  { id: "industry", name: "Industry Solutions" },
+  { id: "civic", name: "Civic & Advocacy" },
+  { id: "career", name: "Career & Workforce" },
+  { id: "events", name: "Events & Awards" },
+] as const;
 
 const PLATFORMS: PlatformItem[] = [
   {
@@ -50,6 +60,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Seeksy TV",
     description: "Live streaming and on-demand video platform for creators. Broadcast, schedule, and grow your audience with built-in tools.",
     image: platformSeeksyTv,
+    category: "media",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/Seeksy TV.mp4`,
   },
   {
@@ -58,6 +69,7 @@ const PLATFORMS: PlatformItem[] = [
     description: "Professional-grade creative production suite. Edit video, mix audio, and produce content with AI-powered tools.",
     image: platformAlchify,
     images: [platformAlchify, platformAlchify2, platformAlchify3],
+    category: "media",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/Alchify.mp4`,
   },
   {
@@ -65,6 +77,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Trucking Lane",
     description: "Your AI Co-Pilot that never sleeps. The first AI assistant built exclusively for trucking — answer calls, qualify carriers, and book loads automatically.",
     image: platformTl,
+    category: "industry",
     infoPopup: {
       tagline: "The first AI assistant built exclusively for trucking. Answer calls, qualify carriers, and book loads — automatically. Trusted by dispatch teams nationwide.",
       highlights: [
@@ -81,6 +94,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "DigitalToVoter",
     description: "Your AI Campaign Manager That Never Sleeps. AI-powered voter outreach, event scheduling, and real-time insights for political campaigns.",
     image: platformDtv,
+    category: "civic",
     infoPopup: {
       tagline: "Stop juggling spreadsheets and missing opportunities. Our AI handles voter outreach, schedules events, and delivers real-time insights — so you can focus on winning.",
       highlights: [
@@ -97,6 +111,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "YourVABenefits",
     description: "Free calculators, AI-powered claim guidance, and connections to accredited representatives. Get the VA benefits you've earned.",
     image: platformYvb,
+    category: "civic",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/YourBenefits.mp4`,
   },
   {
@@ -104,6 +119,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "WorkReady360",
     description: "Stop dreading Monday. AI-powered career exploration, O*NET assessments, and personalized insights to help you find work you actually love.",
     image: platformWr360,
+    category: "career",
     infoPopup: {
       tagline: "You deserve a career that makes you want to get out of bed. We'll help you find purpose, reignite motivation, and build a work life powered by passion — through AI-powered insights.",
       highlights: [
@@ -120,6 +136,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Government Affairs",
     description: "The Intelligence Engine for Government Affairs. A complete political intelligence platform for lobbying firms — map access, research staffers, track legislation, and execute strategy.",
     image: platformGovAffairs,
+    category: "industry",
     videoUrl: `${SUPABASE_URL}/storage/v1/object/public/demo-videos/GovernmentAffairs.mp4`,
     url: "https://governmentaffairs.co",
   },
@@ -128,6 +145,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "PCSing.us",
     description: "Plan your PCS with AI. Your AI-powered military relocation assistant — housing, schools, BAH calculators, entitlements, and base-by-base guides all in one place.",
     image: platformPcsing,
+    category: "career",
     url: "https://pcsing.us",
   },
   {
@@ -135,6 +153,7 @@ const PLATFORMS: PlatformItem[] = [
     name: "Veteran Podcast Awards 2026",
     description: "Celebrating the impactful voices of veteran podcasters. Live ceremony October 5th, 2026.",
     image: platformVpa,
+    category: "events",
     url: "https://veteran-voice-awards.lovable.app/vpa-deck",
   },
 ];
@@ -457,6 +476,7 @@ export default function SeeksyAppDirectory() {
   const [sortByCategory, setSortByCategory] = useState(false);
   const [videoPlatform, setVideoPlatform] = useState<PlatformItem | null>(null);
   const [infoPlatform, setInfoPlatform] = useState<PlatformItem | null>(null);
+  const [selectedPlatformCategory, setSelectedPlatformCategory] = useState<string>("all");
 
   // Track session duration
   useUpdateSessionDuration(sessionId);
@@ -499,6 +519,11 @@ export default function SeeksyAppDirectory() {
     }
     return modules;
   }, [selectedCategory, sortByCategory]);
+
+  const filteredPlatforms = useMemo(() => {
+    if (selectedPlatformCategory === "all") return PLATFORMS;
+    return PLATFORMS.filter(p => p.category === selectedPlatformCategory);
+  }, [selectedPlatformCategory]);
 
   if (!email) {
     return <EmailGate onSubmit={startSession} />;
@@ -563,8 +588,25 @@ export default function SeeksyAppDirectory() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
 
         {tab === "platforms" ? (
+          <>
+            {/* Platform Category Filters */}
+            <div className="flex flex-nowrap justify-center gap-1.5 overflow-x-auto max-w-full mb-8">
+              {PLATFORM_CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedPlatformCategory(cat.id)}
+                  className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors whitespace-nowrap ${
+                    selectedPlatformCategory === cat.id
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-muted text-muted-foreground border-border hover:bg-muted/80"
+                  }`}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {PLATFORMS.map((platform) => {
+            {filteredPlatforms.map((platform) => {
               const isVideo = !!platform.videoUrl;
               const isInfo = !!platform.infoPopup;
               const isLink = !!platform.url;
@@ -622,6 +664,7 @@ export default function SeeksyAppDirectory() {
               );
             })}
           </div>
+          </>
         ) : tab === "bundles" ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {SEEKSY_COLLECTIONS.map((collection) => (
