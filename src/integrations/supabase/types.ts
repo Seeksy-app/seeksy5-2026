@@ -1245,6 +1245,27 @@ export type Database = {
         }
         Relationships: []
       }
+      directory_access_logs: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          source?: string | null
+        }
+        Relationships: []
+      }
       email_folders: {
         Row: {
           color: string | null
