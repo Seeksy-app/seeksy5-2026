@@ -545,6 +545,7 @@ export default function SeeksyAppDirectory() {
   const { isAdmin } = useUserRoles();
   const [platformOrder, setPlatformOrder] = useState<string[]>(PLATFORMS.map(p => p.id));
   const [isReorderMode, setIsReorderMode] = useState(false);
+  const [platformCategoryOverrides, setPlatformCategoryOverrides] = useState<Record<string, string>>({});
 
   const sensors = useSensors(
     useSensor(PointerSensor),
